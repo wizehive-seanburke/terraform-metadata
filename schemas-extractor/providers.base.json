@@ -31,6 +31,7 @@
   "aws": {
     "repository": "github.com/terraform-providers/terraform-provider-__NAME__"
   },
+  "awscc": {},
   "azure": {
     "pkg_name": "azure",
     "repository": "github.com/hashicorp/terraform-provider-azure-classic"
