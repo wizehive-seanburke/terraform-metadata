@@ -3,7 +3,7 @@
   ".sdk_type": "terraform-plugin-sdk-v1",
   "name": "sumologic",
   "type": "provider",
-  "version": "v2.11.2",
+  "version": "v2.1.1",
   "provider": {
     "access_id": {
       "Type": "String",
@@ -1719,7 +1719,6 @@
       "__timeouts__": [
         "create",
         "read",
-        "update",
         "delete"
       ],
       "config": {

@@ -3,7 +3,7 @@
   ".sdk_type": "terraform-plugin-sdk-v1",
   "name": "dome9",
   "type": "provider",
-  "version": "v1.23.2",
+  "version": "v1.20.1",
   "provider": {
     "base_url": {
       "Type": "String",
@@ -900,23 +900,6 @@
       }
     },
     "dome9_cloudaccount_kubernetes": {
-      "admission_control": {
-        "Type": "List",
-        "Optional": true,
-        "Computed": true,
-        "MaxItems": 1,
-        "IsBlock": true,
-        "ConfigImplicitMode": "Block",
-        "Elem": {
-          "Type": "SchemaInfo",
-          "Info": {
-            "enabled": {
-              "Type": "Bool",
-              "Required": true
-            }
-          }
-        }
-      },
       "cluster_version": {
         "Type": "String",
         "Computed": true
@@ -924,23 +907,6 @@
       "creation_date": {
         "Type": "String",
         "Computed": true
-      },
-      "image_assurance": {
-        "Type": "List",
-        "Optional": true,
-        "Computed": true,
-        "MaxItems": 1,
-        "IsBlock": true,
-        "ConfigImplicitMode": "Block",
-        "Elem": {
-          "Type": "SchemaInfo",
-          "Info": {
-            "enabled": {
-              "Type": "Bool",
-              "Required": true
-            }
-          }
-        }
       },
       "name": {
         "Type": "String",
@@ -957,23 +923,6 @@
       "organizational_unit_path": {
         "Type": "String",
         "Computed": true
-      },
-      "runtime_protection": {
-        "Type": "List",
-        "Optional": true,
-        "Computed": true,
-        "MaxItems": 1,
-        "IsBlock": true,
-        "ConfigImplicitMode": "Block",
-        "Elem": {
-          "Type": "SchemaInfo",
-          "Info": {
-            "enabled": {
-              "Type": "Bool",
-              "Required": true
-            }
-          }
-        }
       },
       "vendor": {
         "Type": "String",
@@ -2865,22 +2814,6 @@
       }
     },
     "dome9_cloudaccount_kubernetes": {
-      "admission_control": {
-        "Type": "List",
-        "Computed": true,
-        "MaxItems": 1,
-        "IsBlock": true,
-        "ConfigImplicitMode": "ComputedBlock",
-        "Elem": {
-          "Type": "SchemaInfo",
-          "Info": {
-            "enabled": {
-              "Type": "Bool",
-              "Computed": true
-            }
-          }
-        }
-      },
       "cluster_version": {
         "Type": "String",
         "Computed": true
@@ -2892,22 +2825,6 @@
       "id": {
         "Type": "String",
         "Required": true
-      },
-      "image_assurance": {
-        "Type": "List",
-        "Computed": true,
-        "MaxItems": 1,
-        "IsBlock": true,
-        "ConfigImplicitMode": "ComputedBlock",
-        "Elem": {
-          "Type": "SchemaInfo",
-          "Info": {
-            "enabled": {
-              "Type": "Bool",
-              "Computed": true
-            }
-          }
-        }
       },
       "name": {
         "Type": "String",
@@ -2924,22 +2841,6 @@
       "organizational_unit_path": {
         "Type": "String",
         "Computed": true
-      },
-      "runtime_protection": {
-        "Type": "List",
-        "Computed": true,
-        "MaxItems": 1,
-        "IsBlock": true,
-        "ConfigImplicitMode": "ComputedBlock",
-        "Elem": {
-          "Type": "SchemaInfo",
-          "Info": {
-            "enabled": {
-              "Type": "Bool",
-              "Computed": true
-            }
-          }
-        }
       },
       "vendor": {
         "Type": "String",

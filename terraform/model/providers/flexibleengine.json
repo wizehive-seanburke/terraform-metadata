@@ -3,7 +3,7 @@
   ".sdk_type": "terraform-plugin-sdk-v2",
   "name": "flexibleengine",
   "type": "provider",
-  "version": "v1.25.0",
+  "version": "v1.15.0",
   "provider": {
     "access_key": {
       "Type": "String",
@@ -640,7 +640,7 @@
               "Optional": true,
               "Default": {
                 "Type": "string",
-                "Value": "2021-11-13T15:11Z"
+                "Value": "2022-01-23T01:28Z"
               }
             }
           }
@@ -2802,6 +2802,41 @@
         "Computed": true
       }
     },
+    "flexibleengine_css_snapshot_v1": {
+      "__timeouts__": [
+        "create",
+        "delete"
+      ],
+      "backup_type": {
+        "Type": "String",
+        "Computed": true
+      },
+      "cluster_id": {
+        "Type": "String",
+        "Required": true
+      },
+      "cluster_name": {
+        "Type": "String",
+        "Computed": true
+      },
+      "description": {
+        "Type": "String",
+        "Optional": true
+      },
+      "indices": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "name": {
+        "Type": "String",
+        "Required": true
+      },
+      "status": {
+        "Type": "String",
+        "Computed": true
+      }
+    },
     "flexibleengine_cts_tracker_v1": {
       "__timeouts__": [
         "create",
@@ -4291,7 +4326,7 @@
         "Optional": true,
         "Default": {
           "Type": "string",
-          "Value": "/home/ubuntu/.terraform/image_cache"
+          "Value": "/home/runner/.terraform/image_cache"
         }
       },
       "image_source_url": {
@@ -8273,6 +8308,75 @@
       "access_level": {
         "Type": "String",
         "Optional": true,
+        "Default": {
+          "Type": "string",
+          "Value": "rw"
+        }
+      },
+      "access_rule_status": {
+        "Type": "String",
+        "Computed": true
+      },
+      "access_rules": {
+        "Type": "List",
+        "Computed": true,
+        "IsBlock": true,
+        "ConfigImplicitMode": "ComputedBlock",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "access_level": {
+              "Type": "String",
+              "Computed": true
+            },
+            "access_rule_id": {
+              "Type": "String",
+              "Computed": true
+            },
+            "access_to": {
+              "Type": "String",
+              "Computed": true
+            },
+            "access_type": {
+              "Type": "String",
+              "Computed": true
+            },
+            "status": {
+              "Type": "String",
+              "Computed": true
+            }
+          }
+        }
+      },
+      "access_to": {
+        "Type": "String",
+        "Optional": true
+      },
+      "access_type": {
+        "Type": "String",
+        "Optional": true,
+        "Default": {
+          "Type": "string",
+          "Value": "cert"
+        }
+      },
+      "sfs_id": {
+        "Type": "String",
+        "Required": true
+      },
+      "status": {
+        "Type": "String",
+        "Computed": true
+      }
+    },
+    "flexibleengine_sfs_file_system_v2": {
+      "__timeouts__": [
+        "create",
+        "delete"
+      ],
+      "access_level": {
+        "Type": "String",
+        "Optional": true,
         "Computed": true
       },
       "access_rule_status": {
@@ -8387,10 +8491,6 @@
       "available_capacity": {
         "Type": "String",
         "Computed": true
-      },
-      "crypt_key_id": {
-        "Type": "String",
-        "Optional": true
       },
       "export_location": {
         "Type": "String",

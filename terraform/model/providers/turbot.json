@@ -3,7 +3,7 @@
   ".sdk_type": "terraform",
   "name": "turbot",
   "type": "provider",
-  "version": "v1.8.2",
+  "version": "v1.6.0",
   "provider": {
     "access_key": {
       "Type": "String",

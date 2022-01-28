@@ -3,7 +3,7 @@
   ".sdk_type": "terraform-plugin-sdk-v2",
   "name": "opsgenie",
   "type": "provider",
-  "version": "v0.6.5",
+  "version": "v0.4.0",
   "provider": {
     "api_key": {
       "Type": "String",
@@ -18,15 +18,6 @@
   },
   "resources": {
     "opsgenie_alert_policy": {
-      "actions": {
-        "Type": "Set",
-        "Optional": true,
-        "ConfigImplicitMode": "Attr",
-        "Elem": {
-          "Type": "SchemaElements",
-          "ElementsType": "String"
-        }
-      },
       "alert_description": {
         "Type": "String",
         "Optional": true
@@ -576,78 +567,6 @@
         "Optional": true
       }
     },
-    "opsgenie_incident_template": {
-      "description": {
-        "Type": "String",
-        "Optional": true
-      },
-      "details": {
-        "Type": "Map",
-        "Optional": true,
-        "ConfigImplicitMode": "Attr",
-        "Elem": {
-          "Type": "SchemaElements",
-          "ElementsType": "String"
-        }
-      },
-      "impacted_services": {
-        "Type": "Set",
-        "Optional": true,
-        "ConfigImplicitMode": "Attr",
-        "Elem": {
-          "Type": "SchemaElements",
-          "ElementsType": "String"
-        }
-      },
-      "message": {
-        "Type": "String",
-        "Required": true
-      },
-      "name": {
-        "Type": "String",
-        "Required": true
-      },
-      "priority": {
-        "Type": "String",
-        "Required": true
-      },
-      "stakeholder_properties": {
-        "Type": "List",
-        "Required": true,
-        "IsBlock": true,
-        "ConfigImplicitMode": "Block",
-        "Elem": {
-          "Type": "SchemaInfo",
-          "Info": {
-            "description": {
-              "Type": "String",
-              "Optional": true
-            },
-            "enable": {
-              "Type": "Bool",
-              "Optional": true,
-              "Default": {
-                "Type": "bool",
-                "Value": "true"
-              }
-            },
-            "message": {
-              "Type": "String",
-              "Required": true
-            }
-          }
-        }
-      },
-      "tags": {
-        "Type": "Set",
-        "Optional": true,
-        "ConfigImplicitMode": "Attr",
-        "Elem": {
-          "Type": "SchemaElements",
-          "ElementsType": "String"
-        }
-      }
-    },
     "opsgenie_integration_action": {
       "acknowledge": {
         "Type": "List",
@@ -1009,10 +928,6 @@
                 "Value": "true"
               }
             },
-            "custom_priority": {
-              "Type": "String",
-              "Optional": true
-            },
             "description": {
               "Type": "String",
               "Optional": true,
@@ -1027,15 +942,6 @@
               "Default": {
                 "Type": "string",
                 "Value": "{{entity}}"
-              }
-            },
-            "extra_properties": {
-              "Type": "Map",
-              "Optional": true,
-              "ConfigImplicitMode": "Attr",
-              "Elem": {
-                "Type": "SchemaElements",
-                "ElementsType": "String"
               }
             },
             "filter": {
@@ -1160,10 +1066,6 @@
                 "Value": "1"
               }
             },
-            "priority": {
-              "Type": "String",
-              "Optional": true
-            },
             "responders": {
               "Type": "List",
               "Optional": true,
@@ -1176,9 +1078,17 @@
                     "Type": "String",
                     "Required": true
                   },
+                  "name": {
+                    "Type": "String",
+                    "Optional": true
+                  },
                   "type": {
                     "Type": "String",
                     "Required": true
+                  },
+                  "username": {
+                    "Type": "String",
+                    "Optional": true
                   }
                 }
               }
@@ -1192,7 +1102,7 @@
               }
             },
             "tags": {
-              "Type": "Set",
+              "Type": "List",
               "Optional": true,
               "ConfigImplicitMode": "Attr",
               "Elem": {
@@ -1214,91 +1124,6 @@
               "Default": {
                 "Type": "string",
                 "Value": "{{user}}"
-              }
-            }
-          }
-        }
-      },
-      "ignore": {
-        "Type": "List",
-        "Optional": true,
-        "IsBlock": true,
-        "ConfigImplicitMode": "Block",
-        "Elem": {
-          "Type": "SchemaInfo",
-          "Info": {
-            "filter": {
-              "Type": "List",
-              "Optional": true,
-              "IsBlock": true,
-              "ConfigImplicitMode": "Block",
-              "Elem": {
-                "Type": "SchemaInfo",
-                "Info": {
-                  "conditions": {
-                    "Type": "List",
-                    "Optional": true,
-                    "IsBlock": true,
-                    "ConfigImplicitMode": "Block",
-                    "Elem": {
-                      "Type": "SchemaInfo",
-                      "Info": {
-                        "expected_value": {
-                          "Type": "String",
-                          "Optional": true
-                        },
-                        "field": {
-                          "Type": "String",
-                          "Required": true
-                        },
-                        "key": {
-                          "Type": "String",
-                          "Optional": true
-                        },
-                        "not": {
-                          "Type": "Bool",
-                          "Optional": true,
-                          "Default": {
-                            "Type": "bool",
-                            "Value": "false"
-                          }
-                        },
-                        "operation": {
-                          "Type": "String",
-                          "Required": true
-                        },
-                        "order": {
-                          "Type": "Int",
-                          "Optional": true
-                        }
-                      }
-                    }
-                  },
-                  "type": {
-                    "Type": "String",
-                    "Required": true
-                  }
-                }
-              }
-            },
-            "name": {
-              "Type": "String",
-              "Required": true
-            },
-            "order": {
-              "Type": "Int",
-              "Optional": true,
-              "Default": {
-                "Type": "int",
-                "Value": "1"
-              }
-            },
-            "type": {
-              "Type": "String",
-              "Optional": true,
-              "Default": {
-                "Type": "string",
-                "Value": "ignore"
               }
             }
           }
@@ -2147,11 +1972,6 @@
                     "Type": "String",
                     "Required": true
                   },
-                  "key": {
-                    "Type": "String",
-                    "Optional": true,
-                    "Description": "If 'field' is set as 'extra-properties', key could be used for key-value pair"
-                  },
                   "not": {
                     "Type": "Bool",
                     "Optional": true,
@@ -2178,14 +1998,10 @@
                 "Info": {
                   "description": {
                     "Type": "String",
-                    "Optional": true,
-                    "Default": {
-                      "Type": "string",
-                      "Value": "{{description}}"
-                    }
+                    "Optional": true
                   },
                   "details": {
-                    "Type": "Map",
+                    "Type": "List",
                     "Optional": true,
                     "ConfigImplicitMode": "Attr",
                     "Elem": {
@@ -2229,7 +2045,7 @@
                     }
                   },
                   "tags": {
-                    "Type": "Set",
+                    "Type": "List",
                     "Optional": true,
                     "ConfigImplicitMode": "Attr",
                     "Elem": {

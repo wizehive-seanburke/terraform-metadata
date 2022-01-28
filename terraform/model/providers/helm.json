@@ -289,7 +289,7 @@
         "Description": "Location of public keys used for verification. Used only if `verify` is true",
         "Default": {
           "Type": "string",
-          "Value": "/home/ubuntu/.gnupg/pubring.gpg"
+          "Value": "/home/runner/.gnupg/pubring.gpg"
         }
       },
       "lint": {
@@ -678,7 +678,7 @@
         "Description": "Location of public keys used for verification. Used only if `verify` is true",
         "Default": {
           "Type": "string",
-          "Value": "/home/ubuntu/.gnupg/pubring.gpg"
+          "Value": "/home/runner/.gnupg/pubring.gpg"
         }
       },
       "manifest": {

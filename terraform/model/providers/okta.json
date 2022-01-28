@@ -3,7 +3,7 @@
   ".sdk_type": "terraform-plugin-sdk-v2",
   "name": "okta",
   "type": "provider",
-  "version": "v3.19.0",
+  "version": "v3.4.0",
   "provider": {
     "api_token": {
       "Type": "String",
@@ -4467,161 +4467,10 @@
         }
       }
     },
-    "okta_domain": {
-      "dns_records": {
-        "Type": "List",
-        "Description": "TXT and CNAME records to be registered for the Domain",
-        "Computed": true,
-        "IsBlock": true,
-        "ConfigImplicitMode": "ComputedBlock",
-        "Elem": {
-          "Type": "SchemaInfo",
-          "Info": {
-            "expiration": {
-              "Type": "String",
-              "Description": "TXT record expiration",
-              "Computed": true
-            },
-            "fqdn": {
-              "Type": "String",
-              "Description": "DNS record name",
-              "Computed": true
-            },
-            "record_type": {
-              "Type": "String",
-              "Description": "Record type can be TXT or CNAME",
-              "Computed": true
-            },
-            "values": {
-              "Type": "List",
-              "Description": "DNS verification value",
-              "Computed": true,
-              "ConfigImplicitMode": "Attr",
-              "Elem": {
-                "Type": "SchemaElements",
-                "ElementsType": "String"
-              }
-            }
-          }
-        }
-      },
-      "name": {
-        "Type": "String",
-        "Required": true,
-        "Description": "Custom Domain name"
-      },
-      "validation_status": {
-        "Type": "String",
-        "Description": "Status of the domain",
-        "Computed": true
-      },
-      "verify": {
-        "Type": "Bool",
-        "Optional": true,
-        "Description": "Indicates whether the domain should be verified during creation",
-        "Deprecated": "The direct validation for the domain resource is deprecated, please use the `okta_domain_verification` resource for this functionality.",
-        "Default": {
-          "Type": "bool",
-          "Value": "false"
-        }
-      }
-    },
-    "okta_domain_certificate": {
-      "certificate": {
-        "Type": "String",
-        "Required": true,
-        "Description": "Certificate content"
-      },
-      "certificate_chain": {
-        "Type": "String",
-        "Optional": true,
-        "Description": "Certificate chain"
-      },
-      "domain_id": {
-        "Type": "String",
-        "Required": true,
-        "Description": "Domain's ID"
-      },
-      "private_key": {
-        "Type": "String",
-        "Required": true,
-        "Description": "Certificate private key"
-      },
-      "type": {
-        "Type": "String",
-        "Required": true,
-        "Description": "Certificate type",
-        "DefaultFunc": "UNKNOWN"
-      }
-    },
-    "okta_domain_verification": {
-      "domain_id": {
-        "Type": "String",
-        "Required": true,
-        "Description": "Domain's ID"
-      }
-    },
-    "okta_email_sender": {
-      "dns_records": {
-        "Type": "List",
-        "Description": "TXT and CNAME records to be registered for the Domain",
-        "Computed": true,
-        "IsBlock": true,
-        "ConfigImplicitMode": "ComputedBlock",
-        "Elem": {
-          "Type": "SchemaInfo",
-          "Info": {
-            "fqdn": {
-              "Type": "String",
-              "Description": "DNS record name",
-              "Computed": true
-            },
-            "record_type": {
-              "Type": "String",
-              "Description": "Record type can be TXT or CNAME",
-              "Computed": true
-            },
-            "value": {
-              "Type": "String",
-              "Description": "DNS verification value",
-              "Computed": true
-            }
-          }
-        }
-      },
-      "from_address": {
-        "Type": "String",
-        "Required": true,
-        "Description": "Email address to send from "
-      },
-      "from_name": {
-        "Type": "String",
-        "Required": true,
-        "Description": "Name of sender"
-      },
-      "status": {
-        "Type": "String",
-        "Description": "Verification status",
-        "Computed": true
-      },
-      "subdomain": {
-        "Type": "String",
-        "Required": true,
-        "Description": "Mail domain to send from"
-      }
-    },
-    "okta_email_sender_verification": {
-      "sender_id": {
-        "Type": "String",
-        "Required": true,
-        "Description": "Email sender ID"
-      }
-    },
     "okta_event_hook": {
       "auth": {
         "Type": "Map",
         "Optional": true,
-        "ConfigImplicitMode": "Attr",
         "Elem": {
           "Type": "SchemaElements",
           "ElementsType": "String"
@@ -4630,7 +4479,6 @@
       "channel": {
         "Type": "Map",
         "Required": true,
-        "ConfigImplicitMode": "Attr",
         "Elem": {
           "Type": "SchemaElements",
           "ElementsType": "String"
@@ -4675,13 +4523,6 @@
           "Type": "string",
           "Value": "ACTIVE"
         }
-      }
-    },
-    "okta_event_hook_verification": {
-      "event_hook_id": {
-        "Type": "String",
-        "Required": true,
-        "Description": "Event hook ID"
       }
     },
     "okta_factor": {

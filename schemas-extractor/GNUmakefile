@@ -12,8 +12,20 @@ schemas: providers.json
 	@sh -c "'$(CURDIR)/build-backends.sh'"
 	@sh -c "'$(CURDIR)/build-functions.sh'"
 
-providers.registry.json:
-	@sh -c "'$(CURDIR)/fetch-providers-registry.sh'"
+providers: providers.json
+	@sh -c "'$(CURDIR)/build-providers.sh'"
+
+provisioners: providers.json
+	@sh -c "'$(CURDIR)/build-provisioners.sh'"
+
+backends: providers.json
+	@sh -c "'$(CURDIR)/build-backends.sh'"
+
+functions: providers.json
+	@sh -c "'$(CURDIR)/build-functions.sh'"
+
+providers.list:
+	@sh -c "'$(CURDIR)/fetch-providers.sh'"
 
 providers.json: providers.registry.json providers.base.json
 	@sh -c "'$(CURDIR)/check-providers.sh'"

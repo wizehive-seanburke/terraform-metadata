@@ -3,7 +3,7 @@
   ".sdk_type": "terraform-plugin-sdk-v2",
   "name": "opentelekomcloud",
   "type": "provider",
-  "version": "v1.26.1",
+  "version": "v1.19.0",
   "provider": {
     "access_key": {
       "Type": "String",
@@ -652,7 +652,7 @@
               "Optional": true,
               "Default": {
                 "Type": "string",
-                "Value": "2021-11-13T15:13Z"
+                "Value": "2022-01-23T01:51Z"
               }
             }
           }
@@ -5434,7 +5434,7 @@
         "Optional": true,
         "Default": {
           "Type": "string",
-          "Value": "/home/ubuntu/.terraform/image_cache"
+          "Value": "/home/runner/.terraform/image_cache"
         }
       },
       "image_source_url": {

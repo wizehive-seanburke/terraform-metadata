@@ -3,7 +3,7 @@
   ".sdk_type": "terraform-plugin-sdk-v2",
   "name": "openstack",
   "type": "provider",
-  "version": "v1.45.0",
+  "version": "v1.31.0",
   "provider": {
     "allow_reauth": {
       "Type": "Bool",
@@ -3066,7 +3066,7 @@
         "Optional": true,
         "Default": {
           "Type": "string",
-          "Value": "/home/ubuntu/.terraform/image_cache"
+          "Value": "/home/runner/.terraform/image_cache"
         }
       },
       "image_id": {

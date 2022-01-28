@@ -3,7 +3,7 @@
   ".sdk_type": "terraform-plugin-sdk-v2",
   "name": "aviatrix",
   "type": "provider",
-  "version": "v2.20.1",
+  "version": "v2.16.0",
   "provider": {
     "controller_ip": {
       "Type": "String",
@@ -1473,40 +1473,6 @@
           "Value": "false"
         }
       },
-      "backup_container_name": {
-        "Type": "String",
-        "Optional": true,
-        "Description": "Container name. Required for Azure.",
-        "Default": {
-          "Type": "string"
-        }
-      },
-      "backup_region": {
-        "Type": "String",
-        "Optional": true,
-        "Description": "Name of region. Required for Azure and OCI.",
-        "Default": {
-          "Type": "string"
-        }
-      },
-      "backup_storage_name": {
-        "Type": "String",
-        "Optional": true,
-        "Description": "Storage name. Required for Azure.",
-        "Default": {
-          "Type": "string"
-        }
-      },
-      "ca_certificate_file_path": {
-        "Type": "String",
-        "Optional": true,
-        "Description": "File path to the CA Certificate."
-      },
-      "current_version": {
-        "Type": "String",
-        "Description": "Current version of the controller.",
-        "Computed": true
-      },
       "enable_vpc_dns_server": {
         "Type": "Bool",
         "Optional": true,
@@ -2777,6 +2743,24 @@
         "Description": "Protocol."
       }
     },
+    "aviatrix_fqdn_pass_through": {
+      "gw_name": {
+        "Type": "String",
+        "Required": true,
+        "Description": "Gateway to apply FQDN pass-through rules to."
+      },
+      "pass_through_cidrs": {
+        "Type": "Set",
+        "Required": true,
+        "Description": "CIDRs to allow originating requests to ignore FQDN filtering rules.",
+        "MinItems": 1,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      }
+    },
     "aviatrix_gateway": {
       "account_name": {
         "Type": "String",
@@ -3692,42 +3676,6 @@
         "Description": "The hostname that users will connect to. A DNS record will be created for this name in the specified domain name."
       }
     },
-    "aviatrix_netflow_agent": {
-      "excluded_gateways": {
-        "Type": "Set",
-        "Optional": true,
-        "Description": "List of excluded gateways.",
-        "ConfigImplicitMode": "Attr",
-        "Elem": {
-          "Type": "SchemaElements",
-          "ElementsType": "String"
-        }
-      },
-      "port": {
-        "Type": "Int",
-        "Required": true,
-        "Description": "Netflow server port."
-      },
-      "server_ip": {
-        "Type": "String",
-        "Required": true,
-        "Description": "Netflow server IP address."
-      },
-      "status": {
-        "Type": "String",
-        "Description": "Enabled or not.",
-        "Computed": true
-      },
-      "version": {
-        "Type": "Int",
-        "Optional": true,
-        "Description": "Netflow version.",
-        "Default": {
-          "Type": "int",
-          "Value": "5"
-        }
-      }
-    },
     "aviatrix_periodic_ping": {
       "gw_name": {
         "Type": "String",
@@ -3743,23 +3691,6 @@
         "Type": "String",
         "Required": true,
         "Description": "IP Address to ping."
-      }
-    },
-    "aviatrix_proxy_config": {
-      "http_proxy": {
-        "Type": "String",
-        "Required": true,
-        "Description": "http proxy URL."
-      },
-      "https_proxy": {
-        "Type": "String",
-        "Required": true,
-        "Description": "https proxy URL."
-      },
-      "proxy_ca_certificate": {
-        "Type": "String",
-        "Optional": true,
-        "Description": "Server CA Certificate file."
       }
     },
     "aviatrix_rbac_group": {
@@ -5313,18 +5244,6 @@
           "Value": "true"
         }
       },
-      "availability_domain": {
-        "Type": "String",
-        "Optional": true,
-        "Description": "Availability domain for OCI.",
-        "Computed": true
-      },
-      "azure_eip_name_resource_group": {
-        "Type": "String",
-        "Optional": true,
-        "Description": "The name of the public IP address and its resource group in Azure to assign to this Transit Gateway.",
-        "Computed": true
-      },
       "bgp_ecmp": {
         "Type": "Bool",
         "Optional": true,
@@ -5332,15 +5251,6 @@
         "Default": {
           "Type": "bool",
           "Value": "false"
-        }
-      },
-      "bgp_hold_time": {
-        "Type": "Int",
-        "Optional": true,
-        "Description": "BGP Hold Time.",
-        "Default": {
-          "Type": "int",
-          "Value": "180"
         }
       },
       "bgp_manual_spoke_advertise_cidrs": {
@@ -5731,55 +5641,10 @@
           "Type": "string"
         }
       },
-      "lan_interface_cidr": {
-        "Type": "String",
-        "Description": "Transit gateway lan interface cidr.",
-        "Computed": true
-      },
-      "lan_private_subnet": {
-        "Type": "String",
-        "Optional": true,
-        "Description": "LAN Private Subnet. Only used for GCP Transit FireNet."
-      },
-      "lan_vpc_id": {
-        "Type": "String",
-        "Optional": true,
-        "Description": "LAN VPC ID. Only used for GCP Transit FireNet."
-      },
-      "learned_cidrs_approval_mode": {
-        "Type": "String",
-        "Optional": true,
-        "Description": "Set the learned CIDRs approval mode. Only valid when 'enable_learned_cidrs_approval' is set to true. If set to 'gateway', learned CIDR approval applies to ALL connections. If set to 'connection', learned CIDR approval is configured on a per connection basis. When configuring per connection, use the enable_learned_cidrs_approval attribute within the connection resource to toggle learned CIDR approval. Valid values: 'gateway' or 'connection'. Default value: 'gateway'.",
-        "Default": {
-          "Type": "string",
-          "Value": "gateway"
-        }
-      },
       "local_as_number": {
         "Type": "String",
         "Optional": true,
-        "Description": "Changes the Aviatrix Transit Gateway ASN number before you setup Aviatrix Transit Gateway connection configurations.",
-        "Computed": true
-      },
-      "monitor_exclude_list": {
-        "Type": "Set",
-        "Optional": true,
-        "Description": "A set of monitored instance ids. Only valid when 'enable_monitor_gateway_subnets' = true.",
-        "ConfigImplicitMode": "Attr",
-        "Elem": {
-          "Type": "SchemaElements",
-          "ElementsType": "String"
-        }
-      },
-      "oob_availability_zone": {
-        "Type": "String",
-        "Optional": true,
-        "Description": "OOB subnet availability zone."
-      },
-      "oob_management_subnet": {
-        "Type": "String",
-        "Optional": true,
-        "Description": "OOB management subnet."
+        "Description": "Changes the Aviatrix Transit Gateway ASN number before you setup Aviatrix Transit Gateway connection configurations."
       },
       "prepend_as_path": {
         "Type": "List",
@@ -5887,33 +5752,6 @@
       }
     },
     "aviatrix_transit_gateway_peering": {
-      "enable_insane_mode_encryption_over_internet": {
-        "Type": "Bool",
-        "Optional": true,
-        "Description": "(Optional) Advanced option. Enable Insane Mode Encryption over Internet. Transit gateways must be in Insane Mode. Currently, only inter-cloud connections between AWS and Azure are supported. Required with valid `tunnel_count`. Conflicts with `enable_peering_over_private_network` and `enable_single_tunnel_mode`. Type: Boolean. Default: false. Available as of provider version R2.19+.",
-        "Default": {
-          "Type": "bool",
-          "Value": "false"
-        }
-      },
-      "enable_peering_over_private_network": {
-        "Type": "Bool",
-        "Optional": true,
-        "Description": "(Optional) Advanced option. Enable peering over private network. Only appears and applies to when the two Multi-cloud Transit Gateways are each launched in Insane Mode and in a different cloud type. Conflicts with `enable_insane_mode_encryption_over_internet` and `tunnel_count`. Type: Boolean. Default: false. Available in provider version R2.17.1+",
-        "Default": {
-          "Type": "bool",
-          "Value": "false"
-        }
-      },
-      "enable_single_tunnel_mode": {
-        "Type": "Bool",
-        "Optional": true,
-        "Description": "(Optional) Advanced option. Enable peering with Single-Tunnel mode. Only appears and applies to when the two Multi-cloud Transit Gateways are each launched in Insane Mode and in a different cloud type. Required with `enable_peering_over_private_network`. Conflicts with `enable_insane_mode_encryption_over_internet` and `tunnel_count`. Type: Boolean. Default: false. Available as of provider version R2.18+.",
-        "Default": {
-          "Type": "bool",
-          "Value": "false"
-        }
-      },
       "gateway1_excluded_network_cidrs": {
         "Type": "List",
         "Optional": true,
@@ -5948,28 +5786,6 @@
         "Type": "List",
         "Optional": true,
         "Description": "List of excluded TGW connections for the second transit gateway.",
-        "ConfigImplicitMode": "Attr",
-        "Elem": {
-          "Type": "SchemaElements",
-          "ElementsType": "String"
-        }
-      },
-      "prepend_as_path1": {
-        "Type": "List",
-        "Optional": true,
-        "Description": "AS Path Prepend customized by specifying AS PATH for a BGP connection. Applies on transit_gateway_name1.",
-        "MaxItems": 25,
-        "ConfigImplicitMode": "Attr",
-        "Elem": {
-          "Type": "SchemaElements",
-          "ElementsType": "String"
-        }
-      },
-      "prepend_as_path2": {
-        "Type": "List",
-        "Optional": true,
-        "Description": "AS Path Prepend customized by specifying AS PATH for a BGP connection. Applies on transit_gateway_name2.",
-        "MaxItems": 25,
         "ConfigImplicitMode": "Attr",
         "Elem": {
           "Type": "SchemaElements",

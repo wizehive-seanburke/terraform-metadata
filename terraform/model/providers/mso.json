@@ -3,7 +3,7 @@
   ".sdk_type": "terraform-plugin-sdk-v1",
   "name": "mso",
   "type": "provider",
-  "version": "v0.3.2",
+  "version": "v0.1.1",
   "provider": {
     "domain": {
       "Type": "String",
@@ -511,28 +511,6 @@
         "Required": true
       }
     },
-    "mso_schema_site_external_epg": {
-      "external_epg_name": {
-        "Type": "String",
-        "Required": true
-      },
-      "l3out_name": {
-        "Type": "String",
-        "Required": true
-      },
-      "schema_id": {
-        "Type": "String",
-        "Required": true
-      },
-      "site_id": {
-        "Type": "String",
-        "Required": true
-      },
-      "template_name": {
-        "Type": "String",
-        "Required": true
-      }
-    },
     "mso_schema_site_external_epg_selector": {
       "external_epg_name": {
         "Type": "String",
@@ -658,7 +636,7 @@
                   },
                   "zone": {
                     "Type": "String",
-                    "Optional": true
+                    "Required": true
                   }
                 }
               }
@@ -1999,11 +1977,6 @@
               "Optional": true,
               "Computed": true
             },
-            "azure_shared_account_id": {
-              "Type": "String",
-              "Optional": true,
-              "Computed": true
-            },
             "azure_subscription_id": {
               "Type": "String",
               "Optional": true,
@@ -2599,34 +2572,6 @@
       "template_name": {
         "Type": "String",
         "Optional": true
-      }
-    },
-    "mso_schema_site_external_epg": {
-      "external_epg_name": {
-        "Type": "String",
-        "Required": true
-      },
-      "l3out_name": {
-        "Type": "String",
-        "Required": true
-      },
-      "schema_id": {
-        "Type": "String",
-        "Required": true
-      },
-      "site_id": {
-        "Type": "List",
-        "Optional": true,
-        "Computed": true,
-        "ConfigImplicitMode": "Attr",
-        "Elem": {
-          "Type": "SchemaElements",
-          "ElementsType": "String"
-        }
-      },
-      "template_name": {
-        "Type": "String",
-        "Required": true
       }
     },
     "mso_schema_site_external_epg_selector": {

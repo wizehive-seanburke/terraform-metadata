@@ -1,5 +1,6 @@
 aci
 acme
+ad
 akamai
 alicloud
 archive
@@ -8,7 +9,8 @@ auth0
 avi
 aviatrix
 aws
-azure
+awscc
+azure-classic
 azuread
 azuredevops
 azurerm
@@ -29,11 +31,11 @@ cloudamqp
 cloudflare
 cloudinit
 cloudscale
-cloudstack
 cobbler
 cohesity
 constellix
 consul
+corner
 datadog
 digitalocean
 dme
@@ -58,6 +60,7 @@ googleworkspace
 grafana
 gridscale
 hashicups
+hashicups-pf
 hcloud
 hcp
 hcs
@@ -128,6 +131,10 @@ rke
 rubrik
 rundeck
 runscope
+salesforce
+scaffolding
+scaffolding-framework
+scaffolding-goreleaser
 scaleway
 selectel
 signalfx
@@ -141,7 +148,6 @@ telefonicaopencloud
 template
 tencentcloud
 terraform
-test
 tfe
 thunder
 time

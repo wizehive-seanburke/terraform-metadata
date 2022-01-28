@@ -6,6 +6,7 @@
     "pkg_name": "internal/builtin/provisioners/__NAME__",
     "provisioner_args": ""
   },
+
   "file": {},
   "local-exec": {},
   "remote-exec": {}

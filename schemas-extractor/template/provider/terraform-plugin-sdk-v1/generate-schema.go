@@ -296,7 +296,7 @@ type ResourceProviderSchema struct {
 func main() {
 	var provider tf.ResourceProvider
 	//noinspection GoUnresolvedReference
-	provider = __PROVIDER_CONSTR__
+	provider = prvdr.__PROVIDER_FUNC_NAME__(__PROVIDER_ARGS__)
 	Generate(provider.(*schema.Provider), "__NAME__", "__OUT__")
 }
 

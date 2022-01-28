@@ -3,7 +3,7 @@
   ".sdk_type": "terraform-plugin-sdk-v2",
   "name": "infoblox",
   "type": "provider",
-  "version": "v2.0.6",
+  "version": "v1.1.0",
   "provider": {
     "connect_timeout": {
       "Type": "Int",
@@ -992,108 +992,28 @@
     }
   },
   "data-sources": {
-    "infoblox_a_record": {
-      "comment": {
-        "Type": "String",
-        "Description": "Description of the A-record.",
-        "Computed": true
-      },
-      "dns_view": {
-        "Type": "String",
-        "Required": true,
-        "Description": "Dns View under which the zone has been created."
-      },
-      "ext_attrs": {
-        "Type": "String",
-        "Description": "Extensible attributes of the A-record, as a map in JSON format",
-        "Computed": true
-      },
-      "fqdn": {
-        "Type": "String",
-        "Required": true,
-        "Description": "A record FQDN."
-      },
-      "id": {
-        "Type": "String",
-        "Computed": true
-      },
-      "ip_addr": {
-        "Type": "String",
-        "Required": true,
-        "Description": "IP address the A-record points to"
-      },
-      "ttl": {
-        "Type": "Int",
-        "Description": "TTL value for the A-record.",
-        "Computed": true
-      },
-      "zone": {
-        "Type": "String",
-        "Description": "Zone under which record has been created.",
-        "Computed": true
-      }
-    },
-    "infoblox_cname_record": {
-      "alias": {
-        "Type": "String",
-        "Required": true,
-        "Description": "The alias name in FQDN format."
-      },
-      "canonical": {
-        "Type": "String",
-        "Required": true,
-        "Description": "The Canonical name in FQDN format."
-      },
-      "comment": {
-        "Type": "String",
-        "Description": "A description about CNAME record.",
-        "Computed": true
-      },
-      "dns_view": {
-        "Type": "String",
-        "Required": true,
-        "Description": "Dns View under which the zone has been created."
-      },
-      "ext_attrs": {
-        "Type": "String",
-        "Description": "The Extensible attributes of CNAME record, as a map in JSON format",
-        "Computed": true
-      },
-      "id": {
-        "Type": "String",
-        "Computed": true
-      },
-      "ttl": {
-        "Type": "Int",
-        "Description": "TTL attribute value for the record.",
-        "Computed": true
-      },
-      "zone": {
-        "Type": "String",
-        "Description": "Zone under which record has been created.",
-        "Computed": true
-      }
-    },
-    "infoblox_ipv4_network": {
+    "infoblox_network": {
       "cidr": {
         "Type": "String",
         "Required": true
       },
-      "comment": {
-        "Type": "String",
-        "Description": "A string describing the network",
-        "Computed": true
-      },
-      "ext_attrs": {
-        "Type": "String",
-        "Description": "The Extensible attributes for network datasource, as a map in JSON format",
-        "Computed": true
-      },
-      "id": {
+      "gateway": {
         "Type": "String",
         "Computed": true
       },
-      "network_view": {
+      "network_name": {
+        "Type": "String",
+        "Computed": true
+      },
+      "network_view_name": {
+        "Type": "String",
+        "Optional": true,
+        "Default": {
+          "Type": "string",
+          "Value": "default"
+        }
+      },
+      "tenant_id": {
         "Type": "String",
         "Required": true
       }

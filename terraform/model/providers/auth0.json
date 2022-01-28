@@ -3,7 +3,7 @@
   ".sdk_type": "terraform-plugin-sdk-v1",
   "name": "auth0",
   "type": "provider",
-  "version": "v0.24.0",
+  "version": "v0.14.0",
   "provider": {
     "client_id": {
       "Type": "String",
@@ -684,14 +684,6 @@
         "Optional": true,
         "Computed": true
       },
-      "organization_require_behavior": {
-        "Type": "String",
-        "Optional": true
-      },
-      "organization_usage": {
-        "Type": "String",
-        "Optional": true
-      },
       "refresh_token": {
         "Type": "List",
         "Optional": true,
@@ -706,18 +698,6 @@
             "expiration_type": {
               "Type": "String",
               "Required": true
-            },
-            "idle_token_lifetime": {
-              "Type": "Int",
-              "Optional": true
-            },
-            "infinite_idle_token_lifetime": {
-              "Type": "Bool",
-              "Optional": true
-            },
-            "infinite_token_lifetime": {
-              "Type": "Bool",
-              "Optional": true
             },
             "leeway": {
               "Type": "Int",
@@ -2007,16 +1987,6 @@
         "Optional": true,
         "Computed": true
       },
-      "organization_require_behavior": {
-        "Type": "String",
-        "Optional": true,
-        "Computed": true
-      },
-      "organization_usage": {
-        "Type": "String",
-        "Optional": true,
-        "Computed": true
-      },
       "refresh_token": {
         "Type": "List",
         "Optional": true,
@@ -2031,18 +2001,6 @@
             "expiration_type": {
               "Type": "String",
               "Required": true
-            },
-            "idle_token_lifetime": {
-              "Type": "Int",
-              "Optional": true
-            },
-            "infinite_idle_token_lifetime": {
-              "Type": "Bool",
-              "Optional": true
-            },
-            "infinite_token_lifetime": {
-              "Type": "Bool",
-              "Optional": true
             },
             "leeway": {
               "Type": "Int",

@@ -27,8 +27,12 @@ for name in $(jq -r "keys[]" <$conf); do
   fi
 done
 if [[ $fail -eq 1 ]]; then
-  echo "New providers available, update providers.base.json, check providers.base.new.json"
-  exit 1
+  echo "New providers available, update providers.base.json"
+  if [ -z ${CHECK_PROVIDERS_NOFAIL+x} ]; then
+    exit 1
+  else
+    echo "Bypassing provider check failure due to CHECK_PROVIDERS_NOFAIL"
+  fi
 fi
 
 echo "Done"

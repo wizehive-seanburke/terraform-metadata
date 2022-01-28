@@ -3,7 +3,7 @@
   ".sdk_type": "terraform-plugin-sdk-v1",
   "name": "yandex",
   "type": "provider",
-  "version": "ymq-init-commit",
+  "version": "v0.43.0",
   "provider": {
     "cloud_id": {
       "Type": "String",
@@ -503,6 +503,16 @@
               "Type": "String",
               "Computed": true
             },
+            "security_group_ids": {
+              "Type": "Set",
+              "Optional": true,
+              "Computed": true,
+              "ConfigImplicitMode": "Attr",
+              "Elem": {
+                "Type": "SchemaElements",
+                "ElementsType": "String"
+              }
+            },
             "subnet_id": {
               "Type": "String",
               "Required": true
@@ -921,6 +931,15 @@
                     "Type": "String",
                     "Optional": true
                   },
+                  "security_group_ids": {
+                    "Type": "Set",
+                    "Optional": true,
+                    "ConfigImplicitMode": "Attr",
+                    "Elem": {
+                      "Type": "SchemaElements",
+                      "ElementsType": "String"
+                    }
+                  },
                   "subnet_ids": {
                     "Type": "Set",
                     "Optional": true,
@@ -1036,10 +1055,7 @@
                         },
                         "image_id": {
                           "Type": "String",
-                          "Optional": true,
-                          "ConflictsWith": [
-                            "instance_template.secondary_disk.initialize_params.snapshot_id"
-                          ]
+                          "Optional": true
                         },
                         "size": {
                           "Type": "Int",
@@ -1051,10 +1067,7 @@
                         },
                         "snapshot_id": {
                           "Type": "String",
-                          "Optional": true,
-                          "ConflictsWith": [
-                            "instance_template.secondary_disk.initialize_params.image_id"
-                          ]
+                          "Optional": true
                         },
                         "type": {
                           "Type": "String",
@@ -4168,7 +4181,7 @@
         "Computed": true
       },
       "database": {
-        "Type": "Set",
+        "Type": "List",
         "Required": true,
         "IsBlock": true,
         "ConfigImplicitMode": "Block",
@@ -4259,6 +4272,10 @@
               "Type": "String",
               "Computed": true
             },
+            "role": {
+              "Type": "String",
+              "Computed": true
+            },
             "subnet_id": {
               "Type": "String",
               "Optional": true,
@@ -4293,7 +4310,7 @@
         "Computed": true
       },
       "user": {
-        "Type": "Set",
+        "Type": "List",
         "Required": true,
         "IsBlock": true,
         "ConfigImplicitMode": "Block",
@@ -4373,6 +4390,10 @@
               "Type": "Int",
               "Optional": true,
               "Computed": true
+            },
+            "version": {
+              "Type": "String",
+              "Required": true
             }
           }
         }
@@ -5145,6 +5166,24 @@
     }
   },
   "data-sources": {
+    "yandex_client_config": {
+      "cloud_id": {
+        "Type": "String",
+        "Computed": true
+      },
+      "folder_id": {
+        "Type": "String",
+        "Computed": true
+      },
+      "iam_token": {
+        "Type": "String",
+        "Computed": true
+      },
+      "zone": {
+        "Type": "String",
+        "Computed": true
+      }
+    },
     "yandex_compute_disk": {
       "created_at": {
         "Type": "String",
@@ -6775,15 +6814,24 @@
       },
       "folder_id": {
         "Type": "String",
+        "Optional": true,
         "Computed": true
       },
       "name": {
         "Type": "String",
-        "Computed": true
+        "Optional": true,
+        "Computed": true,
+        "ConflictsWith": [
+          "service_account_id"
+        ]
       },
       "service_account_id": {
         "Type": "String",
-        "Required": true
+        "Optional": true,
+        "Computed": true,
+        "ConflictsWith": [
+          "name"
+        ]
       }
     },
     "yandex_iam_user": {
@@ -8527,7 +8575,7 @@
         "Computed": true
       },
       "database": {
-        "Type": "Set",
+        "Type": "List",
         "Computed": true,
         "IsBlock": true,
         "ConfigImplicitMode": "ComputedBlock",
@@ -8606,6 +8654,10 @@
               "Type": "String",
               "Computed": true
             },
+            "role": {
+              "Type": "String",
+              "Computed": true
+            },
             "subnet_id": {
               "Type": "String",
               "Computed": true
@@ -8640,7 +8692,7 @@
         "Computed": true
       },
       "user": {
-        "Type": "Set",
+        "Type": "List",
         "Computed": true,
         "IsBlock": true,
         "ConfigImplicitMode": "ComputedBlock",
@@ -8712,6 +8764,10 @@
             },
             "timeout": {
               "Type": "Int",
+              "Computed": true
+            },
+            "version": {
+              "Type": "String",
               "Computed": true
             }
           }

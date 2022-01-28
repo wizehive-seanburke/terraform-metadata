@@ -3,7 +3,7 @@
   ".sdk_type": "terraform-plugin-sdk-v2",
   "name": "cloudflare",
   "type": "provider",
-  "version": "v3.4.0",
+  "version": "v3.7.0",
   "provider": {
     "account_id": {
       "Type": "String",
@@ -95,6 +95,14 @@
         "Elem": {
           "Type": "SchemaElements",
           "ElementsType": "String"
+        }
+      },
+      "app_launcher_visible": {
+        "Type": "Bool",
+        "Optional": true,
+        "Default": {
+          "Type": "bool",
+          "Value": "true"
         }
       },
       "aud": {
@@ -2489,6 +2497,59 @@
         "Required": true
       }
     },
+    "cloudflare_device_posture_integration": {
+      "account_id": {
+        "Type": "String",
+        "Required": true
+      },
+      "config": {
+        "Type": "List",
+        "Optional": true,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "api_url": {
+              "Type": "String",
+              "Optional": true
+            },
+            "auth_url": {
+              "Type": "String",
+              "Optional": true
+            },
+            "client_id": {
+              "Type": "String",
+              "Optional": true
+            },
+            "client_secret": {
+              "Type": "String",
+              "Optional": true
+            }
+          }
+        }
+      },
+      "id": {
+        "Type": "String",
+        "Computed": true
+      },
+      "identifier": {
+        "Type": "String",
+        "Optional": true
+      },
+      "interval": {
+        "Type": "String",
+        "Optional": true
+      },
+      "name": {
+        "Type": "String",
+        "Required": true
+      },
+      "type": {
+        "Type": "String",
+        "Required": true
+      }
+    },
     "cloudflare_device_posture_rule": {
       "account_id": {
         "Type": "String",
@@ -2507,6 +2568,16 @@
         "Elem": {
           "Type": "SchemaInfo",
           "Info": {
+            "compliance_status": {
+              "Type": "String",
+              "Optional": true,
+              "Description": "The workspace one device compliance status."
+            },
+            "connection_id": {
+              "Type": "String",
+              "Optional": true,
+              "Description": "The workspace one connection id."
+            },
             "domain": {
               "Type": "String",
               "Optional": true,
@@ -2595,6 +2666,43 @@
       "type": {
         "Type": "String",
         "Required": true
+      }
+    },
+    "cloudflare_fallback_domain": {
+      "account_id": {
+        "Type": "String",
+        "Required": true
+      },
+      "domains": {
+        "Type": "List",
+        "Required": true,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "description": {
+              "Type": "String",
+              "Optional": true,
+              "Description": "A description of the fallback domain, displayed in the client UI."
+            },
+            "dns_server": {
+              "Type": "List",
+              "Optional": true,
+              "Description": "A list of IP addresses to handle domain resolution.",
+              "ConfigImplicitMode": "Attr",
+              "Elem": {
+                "Type": "SchemaElements",
+                "ElementsType": "String"
+              }
+            },
+            "suffix": {
+              "Type": "String",
+              "Optional": true,
+              "Description": "The domain suffix to match when resolving locally."
+            }
+          }
+        }
       }
     },
     "cloudflare_filter": {
@@ -3469,6 +3577,10 @@
       }
     },
     "cloudflare_logpush_job": {
+      "account_id": {
+        "Type": "String",
+        "Optional": true
+      },
       "dataset": {
         "Type": "String",
         "Required": true
@@ -3495,10 +3607,14 @@
       },
       "zone_id": {
         "Type": "String",
-        "Required": true
+        "Optional": true
       }
     },
     "cloudflare_logpush_ownership_challenge": {
+      "account_id": {
+        "Type": "String",
+        "Optional": true
+      },
       "destination_conf": {
         "Type": "String",
         "Required": true
@@ -3509,7 +3625,164 @@
       },
       "zone_id": {
         "Type": "String",
+        "Optional": true
+      }
+    },
+    "cloudflare_magic_firewall_ruleset": {
+      "account_id": {
+        "Type": "String",
         "Required": true
+      },
+      "description": {
+        "Type": "String",
+        "Optional": true
+      },
+      "name": {
+        "Type": "String",
+        "Required": true
+      },
+      "rules": {
+        "Type": "List",
+        "Optional": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "Map"
+        }
+      }
+    },
+    "cloudflare_notification_policy": {
+      "account_id": {
+        "Type": "String",
+        "Required": true
+      },
+      "alert_type": {
+        "Type": "String",
+        "Required": true
+      },
+      "conditions": {
+        "Type": "Map",
+        "Optional": true
+      },
+      "created": {
+        "Type": "String",
+        "Computed": true
+      },
+      "description": {
+        "Type": "String",
+        "Optional": true
+      },
+      "email_integration": {
+        "Type": "Set",
+        "Optional": true,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "id": {
+              "Type": "String",
+              "Required": true
+            },
+            "name": {
+              "Type": "String",
+              "Optional": true
+            }
+          }
+        }
+      },
+      "enabled": {
+        "Type": "Bool",
+        "Required": true
+      },
+      "filters": {
+        "Type": "Map",
+        "Optional": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "List"
+        }
+      },
+      "modified": {
+        "Type": "String",
+        "Computed": true
+      },
+      "name": {
+        "Type": "String",
+        "Required": true
+      },
+      "pagerduty_integration": {
+        "Type": "Set",
+        "Optional": true,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "id": {
+              "Type": "String",
+              "Required": true
+            },
+            "name": {
+              "Type": "String",
+              "Optional": true
+            }
+          }
+        }
+      },
+      "webhooks_integration": {
+        "Type": "Set",
+        "Optional": true,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "id": {
+              "Type": "String",
+              "Required": true
+            },
+            "name": {
+              "Type": "String",
+              "Optional": true
+            }
+          }
+        }
+      }
+    },
+    "cloudflare_notification_policy_webhooks": {
+      "account_id": {
+        "Type": "String",
+        "Required": true
+      },
+      "created_at": {
+        "Type": "String",
+        "Computed": true
+      },
+      "last_failure": {
+        "Type": "String",
+        "Computed": true
+      },
+      "last_success": {
+        "Type": "String",
+        "Computed": true
+      },
+      "name": {
+        "Type": "String",
+        "Required": true
+      },
+      "secret": {
+        "Type": "String",
+        "Optional": true
+      },
+      "type": {
+        "Type": "String",
+        "Computed": true
+      },
+      "url": {
+        "Type": "String",
+        "Optional": true
       }
     },
     "cloudflare_magic_firewall_ruleset": {
@@ -5215,7 +5488,7 @@
         "Optional": true
       },
       "items": {
-        "Type": "List",
+        "Type": "Set",
         "Optional": true,
         "ConfigImplicitMode": "Attr",
         "Elem": {
@@ -5302,6 +5575,10 @@
       "description": {
         "Type": "String",
         "Required": true
+      },
+      "device_posture": {
+        "Type": "String",
+        "Optional": true
       },
       "enabled": {
         "Type": "Bool",
@@ -6656,6 +6933,24 @@
     }
   },
   "data-sources": {
+    "cloudflare_access_identity_provider": {
+      "account_id": {
+        "Type": "String",
+        "Optional": true
+      },
+      "name": {
+        "Type": "String",
+        "Required": true
+      },
+      "type": {
+        "Type": "String",
+        "Computed": true
+      },
+      "zone_id": {
+        "Type": "String",
+        "Optional": true
+      }
+    },
     "cloudflare_account_roles": {
       "account_id": {
         "Type": "String",

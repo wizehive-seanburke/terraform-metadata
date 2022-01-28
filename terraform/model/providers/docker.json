@@ -3,7 +3,7 @@
   ".sdk_type": "terraform-plugin-sdk-v2",
   "name": "docker",
   "type": "provider",
-  "version": "v2.15.0",
+  "version": "v2.7.2",
   "provider": {
     "ca_material": {
       "Type": "String",
@@ -216,7 +216,7 @@
       "dns": {
         "Type": "Set",
         "Optional": true,
-        "Description": "DNS servers to use.",
+        "Computed": true,
         "ConfigImplicitMode": "Attr",
         "Elem": {
           "Type": "SchemaElements",
@@ -226,7 +226,7 @@
       "dns_opts": {
         "Type": "Set",
         "Optional": true,
-        "Description": "DNS options used by the DNS provider(s), see `resolv.conf` documentation for valid list of options.",
+        "Computed": true,
         "ConfigImplicitMode": "Attr",
         "Elem": {
           "Type": "SchemaElements",
@@ -262,8 +262,6 @@
       "env": {
         "Type": "Set",
         "Optional": true,
-        "Description": "Environment variables to set in the form of `KEY=VALUE`, e.g. `DEBUG=0`",
-        "Computed": true,
         "ConfigImplicitMode": "Attr",
         "Elem": {
           "Type": "SchemaElements",
@@ -411,8 +409,6 @@
       "labels": {
         "Type": "Set",
         "Optional": true,
-        "Description": "User-defined key/value metadata",
-        "Computed": true,
         "IsBlock": true,
         "ConfigImplicitMode": "Block",
         "Elem": {
@@ -1015,7 +1011,7 @@
       "working_dir": {
         "Type": "String",
         "Optional": true,
-        "Description": "The working directory for commands to run in."
+        "Computed": true
       }
     },
     "docker_image": {

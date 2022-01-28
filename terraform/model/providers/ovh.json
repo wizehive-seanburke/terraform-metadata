@@ -3,7 +3,7 @@
   ".sdk_type": "terraform-plugin-sdk-v2",
   "name": "ovh",
   "type": "provider",
-  "version": "v0.16.0",
+  "version": "v0.9.0",
   "provider": {
     "application_key": {
       "Type": "String",
@@ -804,9 +804,65 @@
       },
       "service_name": {
         "Type": "String",
-        "Required": true,
+        "Optional": true,
+        "Description": "Id of the cloud project. DEPRECATED, use `service_name` instead",
+        "DefaultFunc": "ENV(OVH_PROJECT_ID)",
+        "ConflictsWith": [
+          "service_name"
+        ]
+      },
+      "role_name": {
+        "Type": "String",
+        "Optional": true
+      },
+      "role_names": {
+        "Type": "List",
+        "Optional": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "roles": {
+        "Type": "List",
+        "Computed": true,
+        "IsBlock": true,
+        "ConfigImplicitMode": "ComputedBlock",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "description": {
+              "Type": "String",
+              "Computed": true
+            },
+            "id": {
+              "Type": "String",
+              "Computed": true
+            },
+            "name": {
+              "Type": "String",
+              "Computed": true
+            },
+            "permissions": {
+              "Type": "Set",
+              "Computed": true,
+              "ConfigImplicitMode": "Attr",
+              "Elem": {
+                "Type": "SchemaElements",
+                "ElementsType": "String"
+              }
+            }
+          }
+        }
+      },
+      "service_name": {
+        "Type": "String",
+        "Optional": true,
         "Description": "Service name of the resource representing the id of the cloud project.",
-        "DefaultFunc": "ENV(OVH_CLOUD_PROJECT_SERVICE)"
+        "ConflictsWith": [
+          "project_id"
+        ]
       },
       "status": {
         "Type": "String",
@@ -814,305 +870,6 @@
       },
       "username": {
         "Type": "String",
-        "Computed": true
-      }
-    },
-    "ovh_dbaas_logs_input": {
-      "allowed_networks": {
-        "Type": "List",
-        "Optional": true,
-        "Description": "IP blocks",
-        "Computed": true,
-        "ConfigImplicitMode": "Attr",
-        "Elem": {
-          "Type": "SchemaElements",
-          "ElementsType": "String"
-        }
-      },
-      "configuration": {
-        "Type": "List",
-        "Required": true,
-        "Description": "Input configuration",
-        "MaxItems": 1,
-        "IsBlock": true,
-        "ConfigImplicitMode": "Block",
-        "Elem": {
-          "Type": "SchemaInfo",
-          "Info": {
-            "flowgger": {
-              "Type": "List",
-              "Optional": true,
-              "Description": "Flowgger configuration",
-              "MaxItems": 1,
-              "ConflictsWith": [
-                "configuration.0.logstash"
-              ],
-              "IsBlock": true,
-              "ConfigImplicitMode": "Block",
-              "Elem": {
-                "Type": "SchemaInfo",
-                "Info": {
-                  "log_format": {
-                    "Type": "String",
-                    "Required": true,
-                    "Description": "Type of format to decode"
-                  },
-                  "log_framing": {
-                    "Type": "String",
-                    "Required": true,
-                    "Description": "Indicates how messages are delimited"
-                  }
-                }
-              }
-            },
-            "logstash": {
-              "Type": "List",
-              "Optional": true,
-              "Description": "Logstash configuration",
-              "MaxItems": 1,
-              "ConflictsWith": [
-                "configuration.0.flowgger"
-              ],
-              "IsBlock": true,
-              "ConfigImplicitMode": "Block",
-              "Elem": {
-                "Type": "SchemaInfo",
-                "Info": {
-                  "filter_section": {
-                    "Type": "String",
-                    "Optional": true,
-                    "Description": "The filter section of logstash.conf",
-                    "Default": {
-                      "Type": "string"
-                    }
-                  },
-                  "input_section": {
-                    "Type": "String",
-                    "Required": true,
-                    "Description": "The filter section of logstash.conf"
-                  },
-                  "pattern_section": {
-                    "Type": "String",
-                    "Optional": true,
-                    "Description": "The list of customs Grok patterns",
-                    "Default": {
-                      "Type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "created_at": {
-        "Type": "String",
-        "Description": "Input creation",
-        "Computed": true
-      },
-      "description": {
-        "Type": "String",
-        "Required": true,
-        "Description": "Input description"
-      },
-      "engine_id": {
-        "Type": "String",
-        "Required": true,
-        "Description": "Input engine ID"
-      },
-      "exposed_port": {
-        "Type": "String",
-        "Optional": true,
-        "Description": "Port",
-        "Computed": true
-      },
-      "hostname": {
-        "Type": "String",
-        "Description": "Hostname",
-        "Computed": true
-      },
-      "input_id": {
-        "Type": "String",
-        "Description": "Input ID",
-        "Computed": true
-      },
-      "is_restart_required": {
-        "Type": "Bool",
-        "Description": "Indicate if input need to be restarted",
-        "Computed": true
-      },
-      "nb_instance": {
-        "Type": "Int",
-        "Optional": true,
-        "Description": "Number of instance running",
-        "Computed": true
-      },
-      "public_address": {
-        "Type": "String",
-        "Description": "Input IP address",
-        "Computed": true
-      },
-      "service_name": {
-        "Type": "String",
-        "Required": true
-      },
-      "ssl_certificate": {
-        "Type": "String",
-        "Description": "Input SSL certificate",
-        "Computed": true
-      },
-      "status": {
-        "Type": "String",
-        "Description": "init: configuration required, pending: ready to start, running: available",
-        "Computed": true
-      },
-      "stream_id": {
-        "Type": "String",
-        "Required": true,
-        "Description": "Associated Graylog stream"
-      },
-      "title": {
-        "Type": "String",
-        "Required": true,
-        "Description": "Input title"
-      },
-      "updated_at": {
-        "Type": "String",
-        "Description": "Input last update",
-        "Computed": true
-      }
-    },
-    "ovh_dbaas_logs_output_graylog_stream": {
-      "can_alert": {
-        "Type": "Bool",
-        "Description": "Indicates if the current user can create alert on the stream",
-        "Computed": true
-      },
-      "cold_storage_compression": {
-        "Type": "String",
-        "Optional": true,
-        "Description": "Cold storage compression method",
-        "Computed": true
-      },
-      "cold_storage_content": {
-        "Type": "String",
-        "Optional": true,
-        "Description": "ColdStorage content",
-        "Computed": true
-      },
-      "cold_storage_enabled": {
-        "Type": "Bool",
-        "Optional": true,
-        "Description": "Is Cold storage enabled?",
-        "Computed": true
-      },
-      "cold_storage_notify_enabled": {
-        "Type": "Bool",
-        "Optional": true,
-        "Description": "Notify on new Cold storage archive",
-        "Computed": true
-      },
-      "cold_storage_retention": {
-        "Type": "Int",
-        "Optional": true,
-        "Description": "Cold storage retention in year",
-        "Computed": true
-      },
-      "cold_storage_target": {
-        "Type": "String",
-        "Optional": true,
-        "Description": "ColdStorage destination",
-        "Computed": true
-      },
-      "created_at": {
-        "Type": "String",
-        "Description": "Stream creation",
-        "Computed": true
-      },
-      "description": {
-        "Type": "String",
-        "Required": true,
-        "Description": "Stream description"
-      },
-      "indexing_enabled": {
-        "Type": "Bool",
-        "Optional": true,
-        "Description": "Enable ES indexing",
-        "Computed": true
-      },
-      "indexing_max_size": {
-        "Type": "Int",
-        "Optional": true,
-        "Description": "Maximum indexing size (in GB)",
-        "Computed": true
-      },
-      "indexing_notify_enabled": {
-        "Type": "Bool",
-        "Optional": true,
-        "Description": "If set, notify when size is near 80, 90 or 100 % of the maximum configured setting",
-        "Computed": true
-      },
-      "is_editable": {
-        "Type": "Bool",
-        "Description": "Indicates if you are allowed to edit entry",
-        "Computed": true
-      },
-      "is_shareable": {
-        "Type": "Bool",
-        "Description": "Indicates if you are allowed to share entry",
-        "Computed": true
-      },
-      "nb_alert_condition": {
-        "Type": "Int",
-        "Description": "Number of alert condition",
-        "Computed": true
-      },
-      "nb_archive": {
-        "Type": "Int",
-        "Description": "Number of coldstored archives",
-        "Computed": true
-      },
-      "parent_stream_id": {
-        "Type": "String",
-        "Optional": true,
-        "Description": "Parent stream ID"
-      },
-      "pause_indexing_on_max_size": {
-        "Type": "Bool",
-        "Optional": true,
-        "Description": "If set, pause indexing when maximum size is reach",
-        "Computed": true
-      },
-      "retention_id": {
-        "Type": "String",
-        "Optional": true,
-        "Description": "Retention ID",
-        "Computed": true
-      },
-      "service_name": {
-        "Type": "String",
-        "Required": true,
-        "Description": "The service name"
-      },
-      "stream_id": {
-        "Type": "String",
-        "Description": "Stream ID",
-        "Computed": true
-      },
-      "title": {
-        "Type": "String",
-        "Required": true,
-        "Description": "Stream description"
-      },
-      "updated_at": {
-        "Type": "String",
-        "Description": "Stream last update",
-        "Computed": true
-      },
-      "web_socket_enabled": {
-        "Type": "Bool",
-        "Optional": true,
-        "Description": "Enable Websocket",
         "Computed": true
       }
     },
@@ -2345,7 +2102,6 @@
       "action": {
         "Type": "List",
         "Required": true,
-        "Description": "Action triggered when all rules match",
         "MaxItems": 1,
         "IsBlock": true,
         "ConfigImplicitMode": "Block",
@@ -3307,8 +3063,65 @@
       },
       "ovh_subsidiary": {
         "Type": "String",
-        "Required": true,
-        "Description": "Ovh Subsidiary"
+        "Optional": true,
+        "Description": "Id of the cloud project. DEPRECATED, use `service_name` instead",
+        "DefaultFunc": "ENV(OVH_PROJECT_ID)",
+        "ConflictsWith": [
+          "service_name"
+        ]
+      },
+      "role_name": {
+        "Type": "String",
+        "Optional": true
+      },
+      "role_names": {
+        "Type": "List",
+        "Optional": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "roles": {
+        "Type": "List",
+        "Computed": true,
+        "IsBlock": true,
+        "ConfigImplicitMode": "ComputedBlock",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "description": {
+              "Type": "String",
+              "Computed": true
+            },
+            "id": {
+              "Type": "String",
+              "Computed": true
+            },
+            "name": {
+              "Type": "String",
+              "Computed": true
+            },
+            "permissions": {
+              "Type": "Set",
+              "Computed": true,
+              "ConfigImplicitMode": "Attr",
+              "Elem": {
+                "Type": "SchemaElements",
+                "ElementsType": "String"
+              }
+            }
+          }
+        }
+      },
+      "service_name": {
+        "Type": "String",
+        "Optional": true,
+        "Description": "Service name of the resource representing the id of the cloud project.",
+        "ConflictsWith": [
+          "project_id"
+        ]
       },
       "payment_mean": {
         "Type": "String",
@@ -4109,6 +3922,51 @@
       "web_socket_enabled": {
         "Type": "String",
         "Description": "Enable Websocket",
+        "Computed": true
+      }
+    },
+    "ovh_dedicated_ceph": {
+      "ceph_mons": {
+        "Type": "List",
+        "Computed": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "ceph_version": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "crush_tunables": {
+        "Type": "String",
+        "Computed": true
+      },
+      "label": {
+        "Type": "String",
+        "Computed": true
+      },
+      "region": {
+        "Type": "String",
+        "Computed": true
+      },
+      "service_name": {
+        "Type": "String",
+        "Required": true
+      },
+      "size": {
+        "Type": "Float",
+        "Computed": true
+      },
+      "state": {
+        "Type": "String",
+        "Computed": true
+      },
+      "status": {
+        "Type": "String",
+        "Optional": true,
         "Computed": true
       }
     },
@@ -5885,12 +5743,22 @@
         "Computed": true
       },
       "datacenter": {
-        "Type": "Map",
+        "Type": "Set",
         "Computed": true,
-        "ConfigImplicitMode": "Attr",
+        "IsBlock": true,
+        "ConfigImplicitMode": "ComputedBlock",
         "Elem": {
-          "Type": "SchemaElements",
-          "ElementsType": "String"
+          "Type": "SchemaInfo",
+          "Info": {
+            "longname": {
+              "Type": "String",
+              "Required": true
+            },
+            "name": {
+              "Type": "String",
+              "Required": true
+            }
+          }
         }
       },
       "displayname": {
@@ -5915,12 +5783,26 @@
         "Computed": true
       },
       "model": {
-        "Type": "Map",
+        "Type": "Set",
         "Computed": true,
-        "ConfigImplicitMode": "Attr",
+        "IsBlock": true,
+        "ConfigImplicitMode": "ComputedBlock",
         "Elem": {
-          "Type": "SchemaElements",
-          "ElementsType": "String"
+          "Type": "SchemaInfo",
+          "Info": {
+            "name": {
+              "Type": "String",
+              "Required": true
+            },
+            "offer": {
+              "Type": "String",
+              "Required": true
+            },
+            "version": {
+              "Type": "String",
+              "Required": true
+            }
+          }
         }
       },
       "name": {

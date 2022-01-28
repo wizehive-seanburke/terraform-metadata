@@ -3,7 +3,7 @@
   ".sdk_type": "terraform-plugin-sdk-v2",
   "name": "mongodbatlas",
   "type": "provider",
-  "version": "v1.0.2-pre.1",
+  "version": "v0.6.3",
   "provider": {
     "base_url": {
       "Type": "String",
@@ -6673,7 +6673,7 @@
         }
       }
     },
-    "mongodbatlas_project_ip_access_list": {
+    "mongodbatlas_project_ip_whitelist": {
       "aws_security_group": {
         "Type": "String",
         "Optional": true,

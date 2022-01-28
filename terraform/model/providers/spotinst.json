@@ -3,7 +3,7 @@
   ".sdk_type": "terraform-plugin-sdk-v1",
   "name": "spotinst",
   "type": "provider",
-  "version": "v1.62.0",
+  "version": "v1.25.0",
   "provider": {
     "account": {
       "Type": "String",
@@ -7300,7 +7300,7 @@
         }
       },
       "spot_percentage": {
-        "Type": "Int",
+        "Type": "Float",
         "Optional": true,
         "Default": {
           "Type": "int",
@@ -7448,7 +7448,7 @@
           "Info": {
             "device_name": {
               "Type": "String",
-              "Optional": true
+              "Required": true
             },
             "ebs": {
               "Type": "List",
@@ -7505,10 +7505,6 @@
                     "Type": "String",
                     "Optional": true
                   },
-                  "throughput": {
-                    "Type": "Int",
-                    "Optional": true
-                  },
                   "volume_size": {
                     "Type": "Int",
                     "Optional": true
@@ -7528,38 +7524,6 @@
             "virtual_name": {
               "Type": "String",
               "Optional": true
-            }
-          }
-        }
-      },
-      "create_options": {
-        "Type": "List",
-        "Optional": true,
-        "MaxItems": 1,
-        "IsBlock": true,
-        "ConfigImplicitMode": "Block",
-        "Elem": {
-          "Type": "SchemaInfo",
-          "Info": {
-            "initial_nodes": {
-              "Type": "Int",
-              "Required": true
-            }
-          }
-        }
-      },
-      "delete_options": {
-        "Type": "List",
-        "Optional": true,
-        "MaxItems": 1,
-        "IsBlock": true,
-        "ConfigImplicitMode": "Block",
-        "Elem": {
-          "Type": "SchemaInfo",
-          "Info": {
-            "force_delete": {
-              "Type": "Bool",
-              "Required": true
             }
           }
         }

@@ -3,7 +3,7 @@
   ".sdk_type": "terraform-plugin-sdk-v1",
   "name": "packet",
   "type": "provider",
-  "version": "v3.2.1",
+  "version": "v3.0.0",
   "provider": {
     "auth_token": {
       "Type": "String",

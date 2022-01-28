@@ -3,7 +3,7 @@
   ".sdk_type": "terraform-plugin-sdk-v1",
   "name": "postgresql",
   "type": "provider",
-  "version": "v1.14.0",
+  "version": "v1.7.1",
   "provider": {
     "clientcert": {
       "Type": "List",
@@ -283,17 +283,7 @@
       "object_type": {
         "Type": "String",
         "Required": true,
-        "Description": "The PostgreSQL object type to grant the privileges on (one of: database, function, schema, sequence, table, foreign_data_wrapper, foreign_server)"
-      },
-      "objects": {
-        "Type": "Set",
-        "Optional": true,
-        "Description": "The specific objects to grant privileges on for this role (empty means all objects of the requested type)",
-        "ConfigImplicitMode": "Attr",
-        "Elem": {
-          "Type": "SchemaElements",
-          "ElementsType": "String"
-        }
+        "Description": "The PostgreSQL object type to grant the privileges on (one of: database, table, sequence, function)"
       },
       "privileges": {
         "Type": "Set",

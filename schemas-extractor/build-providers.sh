@@ -11,7 +11,12 @@ out="$CUR/schemas/providers"
 mkdir -p "$out"
 rm -f "$failures"
 
-update_all "$@"
+if [ ! -z ${ONLY+x} ]; then 
+  echo "Provider list found. Only passed in providers will be processed."
+  IFS=' ' read -r -a CHECK_LIST <<< $ONLY
+fi
+
+update_all
 
 echo
 echo "========================================"
@@ -34,6 +39,7 @@ function process_provider() {
   pkg_name="$(jq_get "$name" 'pkg_name')"
   provider_constr="$(jq_get "$name" 'provider_constr')"
   provider_args="$(jq_get "$name" 'provider_args')"
+  provider_func_name="$(jq_get "$name" 'provider_func_name')"
   use_master="$(jq_get "$name" 'use_master')"
   go_envs="$(jq_get "$name" 'go_envs')"
   go_args="$(jq_get "$name" 'go_args')"
@@ -171,6 +177,7 @@ EOF
     -e "s~__REVISION__~$revision~g" \
     -e "s~__PROVIDER_CONSTR__~$provider_constr~g" \
     -e "s~__PROVIDER_ARGS__~$provider_args~g" \
+    -e "s~__PROVIDER_FUNC_NAME__~$provider_func_name~g" \
     -e "s~__SDK__~$sdk~g" \
     -e "s~__OUT__~$out~g" \
     "$CUR/template/$base_file" \
@@ -194,7 +201,13 @@ if [[ $# -gt 0 ]]; then
   process_provider "$1" | tee -a "$logs/$1.log" || true
 else
 while IFS= read -r p; do
-  process_provider "$p" | tee -a "$logs/$p.log" || true
+  if [ ! -z ${ONLY+x} ]; then 
+    if [[ " ${CHECK_LIST[*]} " =~ " ${p} " ]]; then
+      process_provider "$p" || true
+    fi
+  else
+    process_provider "$p" || true
+  fi
 done < <(jq -r 'keys[]' <"$CUR/$config_file")
 fi
 
