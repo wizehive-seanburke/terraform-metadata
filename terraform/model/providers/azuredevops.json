@@ -1,9 +1,9 @@
 {
   ".schema_version": "2",
-  ".sdk_type": "terraform-plugin-sdk-v1",
+  ".sdk_type": "terraform-plugin-sdk-v2",
   "name": "azuredevops",
   "type": "provider",
-  "version": "v0.1.8",
+  "version": "v0.2.1",
   "provider": {
     "org_service_url": {
       "Type": "String",
@@ -218,7 +218,7 @@
               "Required": true
             },
             "filename_patterns": {
-              "Type": "Set",
+              "Type": "List",
               "Optional": true,
               "ConfigImplicitMode": "Attr",
               "Elem": {
@@ -1250,6 +1250,23 @@
         }
       }
     },
+    "azuredevops_environment": {
+      "description": {
+        "Type": "String",
+        "Optional": true,
+        "Default": {
+          "Type": "string"
+        }
+      },
+      "name": {
+        "Type": "String",
+        "Required": true
+      },
+      "project_id": {
+        "Type": "String",
+        "Required": true
+      }
+    },
     "azuredevops_git_permissions": {
       "branch_name": {
         "Type": "String",
@@ -1636,6 +1653,42 @@
         }
       }
     },
+    "azuredevops_project_pipeline_settings": {
+      "enforce_job_scope": {
+        "Type": "Bool",
+        "Optional": true,
+        "Description": "Limit job authorization scope to current project for non-release pipelines",
+        "Computed": true
+      },
+      "enforce_referenced_repo_scoped_token": {
+        "Type": "Bool",
+        "Optional": true,
+        "Description": "Protect access to repositories in YAML pipelines",
+        "Computed": true
+      },
+      "enforce_settable_var": {
+        "Type": "Bool",
+        "Optional": true,
+        "Description": "Limit variables that can be set at queue time",
+        "Computed": true
+      },
+      "project_id": {
+        "Type": "String",
+        "Required": true
+      },
+      "publish_pipeline_metadata": {
+        "Type": "Bool",
+        "Optional": true,
+        "Description": "Publish metadata from pipelines",
+        "Computed": true
+      },
+      "status_badges_are_private": {
+        "Type": "Bool",
+        "Optional": true,
+        "Description": "Disable anonymous access to badges",
+        "Computed": true
+      }
+    },
     "azuredevops_repository_policy_author_email_pattern": {
       "author_email_patterns": {
         "Type": "List",
@@ -1913,6 +1966,101 @@
           "Type": "string",
           "Value": "endpoint"
         }
+      }
+    },
+    "azuredevops_serviceendpoint_argocd": {
+      "__timeouts__": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "authentication_basic": {
+        "Type": "List",
+        "Optional": true,
+        "MaxItems": 1,
+        "MinItems": 1,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "password": {
+              "Type": "String",
+              "Required": true,
+              "Description": "The ArgoCD password."
+            },
+            "password_hash": {
+              "Type": "String",
+              "Description": "A bcrypted hash of the attribute 'password'",
+              "Computed": true
+            },
+            "username": {
+              "Type": "String",
+              "Required": true,
+              "Description": "The ArgoCD user name."
+            },
+            "username_hash": {
+              "Type": "String",
+              "Description": "A bcrypted hash of the attribute 'username'",
+              "Computed": true
+            }
+          }
+        }
+      },
+      "authentication_token": {
+        "Type": "List",
+        "Optional": true,
+        "MaxItems": 1,
+        "MinItems": 1,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "token": {
+              "Type": "String",
+              "Required": true,
+              "Description": "The ArgoCD access token."
+            },
+            "token_hash": {
+              "Type": "String",
+              "Description": "A bcrypted hash of the attribute 'token'",
+              "Computed": true
+            }
+          }
+        }
+      },
+      "authorization": {
+        "Type": "Map",
+        "Optional": true,
+        "Computed": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "description": {
+        "Type": "String",
+        "Optional": true,
+        "Default": {
+          "Type": "string",
+          "Value": "Managed by Terraform"
+        }
+      },
+      "project_id": {
+        "Type": "String",
+        "Required": true
+      },
+      "service_endpoint_name": {
+        "Type": "String",
+        "Required": true
+      },
+      "url": {
+        "Type": "String",
+        "Required": true,
+        "Description": "Url for the ArgoCD Server"
       }
     },
     "azuredevops_serviceendpoint_artifactory": {
@@ -2930,6 +3078,37 @@
         "Description": "Url for the npm registry"
       }
     },
+    "azuredevops_serviceendpoint_permissions": {
+      "permissions": {
+        "Type": "Map",
+        "Required": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "principal": {
+        "Type": "String",
+        "Required": true
+      },
+      "project_id": {
+        "Type": "String",
+        "Required": true
+      },
+      "replace": {
+        "Type": "Bool",
+        "Optional": true,
+        "Default": {
+          "Type": "bool",
+          "Value": "true"
+        }
+      },
+      "serviceendpoint_id": {
+        "Type": "String",
+        "Optional": true
+      }
+    },
     "azuredevops_serviceendpoint_runpipeline": {
       "__timeouts__": [
         "create",
@@ -3285,6 +3464,60 @@
       "username": {
         "Type": "String",
         "Required": true
+      }
+    },
+    "azuredevops_servicehook_permissions": {
+      "permissions": {
+        "Type": "Map",
+        "Required": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "principal": {
+        "Type": "String",
+        "Required": true
+      },
+      "project_id": {
+        "Type": "String",
+        "Optional": true
+      },
+      "replace": {
+        "Type": "Bool",
+        "Optional": true,
+        "Default": {
+          "Type": "bool",
+          "Value": "true"
+        }
+      }
+    },
+    "azuredevops_tagging_permissions": {
+      "permissions": {
+        "Type": "Map",
+        "Required": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "principal": {
+        "Type": "String",
+        "Required": true
+      },
+      "project_id": {
+        "Type": "String",
+        "Optional": true
+      },
+      "replace": {
+        "Type": "Bool",
+        "Optional": true,
+        "Default": {
+          "Type": "bool",
+          "Value": "true"
+        }
       }
     },
     "azuredevops_team": {
@@ -4147,6 +4380,82 @@
               "Optional": true
             },
             "principal_name": {
+              "Type": "String",
+              "Computed": true
+            }
+          }
+        }
+      }
+    },
+    "azuredevops_variable_group": {
+      "allow_access": {
+        "Type": "Bool",
+        "Computed": true
+      },
+      "description": {
+        "Type": "String",
+        "Computed": true
+      },
+      "key_vault": {
+        "Type": "List",
+        "Computed": true,
+        "IsBlock": true,
+        "ConfigImplicitMode": "ComputedBlock",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "name": {
+              "Type": "String",
+              "Computed": true
+            },
+            "service_endpoint_id": {
+              "Type": "String",
+              "Computed": true
+            }
+          }
+        }
+      },
+      "name": {
+        "Type": "String",
+        "Required": true
+      },
+      "project_id": {
+        "Type": "String",
+        "Required": true
+      },
+      "variable": {
+        "Type": "Set",
+        "Computed": true,
+        "IsBlock": true,
+        "ConfigImplicitMode": "ComputedBlock",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "content_type": {
+              "Type": "String",
+              "Computed": true
+            },
+            "enabled": {
+              "Type": "Bool",
+              "Computed": true
+            },
+            "expires": {
+              "Type": "String",
+              "Computed": true
+            },
+            "is_secret": {
+              "Type": "Bool",
+              "Computed": true
+            },
+            "name": {
+              "Type": "String",
+              "Computed": true
+            },
+            "secret_value": {
+              "Type": "String",
+              "Computed": true
+            },
+            "value": {
               "Type": "String",
               "Computed": true
             }

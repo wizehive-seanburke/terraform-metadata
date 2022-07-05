@@ -3,7 +3,7 @@
   ".sdk_type": "terraform-plugin-sdk-v2",
   "name": "tfe",
   "type": "provider",
-  "version": "v0.28.1",
+  "version": "v0.31.0",
   "provider": {
     "hostname": {
       "Type": "String",
@@ -482,6 +482,14 @@
         "Elem": {
           "Type": "SchemaInfo",
           "Info": {
+            "manage_modules": {
+              "Type": "Bool",
+              "Optional": true,
+              "Default": {
+                "Type": "bool",
+                "Value": "false"
+              }
+            },
             "manage_policies": {
               "Type": "Bool",
               "Optional": true,
@@ -491,6 +499,14 @@
               }
             },
             "manage_policy_overrides": {
+              "Type": "Bool",
+              "Optional": true,
+              "Default": {
+                "Type": "bool",
+                "Value": "false"
+              }
+            },
+            "manage_providers": {
               "Type": "Bool",
               "Optional": true,
               "Default": {
@@ -516,6 +532,10 @@
             }
           }
         }
+      },
+      "sso_team_id": {
+        "Type": "String",
+        "Optional": true
       },
       "visibility": {
         "Type": "String",
@@ -711,9 +731,48 @@
           "Type": "string"
         }
       },
+      "variable_set_id": {
+        "Type": "String",
+        "Optional": true
+      },
       "workspace_id": {
         "Type": "String",
+        "Optional": true
+      }
+    },
+    "tfe_variable_set": {
+      "description": {
+        "Type": "String",
+        "Optional": true
+      },
+      "global": {
+        "Type": "Bool",
+        "Optional": true,
+        "ConflictsWith": [
+          "workspace_ids"
+        ],
+        "Default": {
+          "Type": "bool",
+          "Value": "false"
+        }
+      },
+      "name": {
+        "Type": "String",
         "Required": true
+      },
+      "organization": {
+        "Type": "String",
+        "Required": true
+      },
+      "workspace_ids": {
+        "Type": "Set",
+        "Optional": true,
+        "Computed": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
       }
     },
     "tfe_workspace": {
@@ -1052,6 +1111,10 @@
       "organization": {
         "Type": "String",
         "Required": true
+      },
+      "sso_team_id": {
+        "Type": "String",
+        "Computed": true
       }
     },
     "tfe_team_access": {
@@ -1097,6 +1160,44 @@
       "workspace_id": {
         "Type": "String",
         "Required": true
+      }
+    },
+    "tfe_variable_set": {
+      "description": {
+        "Type": "String",
+        "Computed": true
+      },
+      "global": {
+        "Type": "Bool",
+        "Computed": true
+      },
+      "name": {
+        "Type": "String",
+        "Required": true
+      },
+      "organization": {
+        "Type": "String",
+        "Required": true
+      },
+      "variable_ids": {
+        "Type": "Set",
+        "Optional": true,
+        "Computed": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "workspace_ids": {
+        "Type": "Set",
+        "Optional": true,
+        "Computed": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
       }
     },
     "tfe_variables": {
@@ -1170,6 +1271,10 @@
           }
         }
       },
+      "variable_set_id": {
+        "Type": "String",
+        "Optional": true
+      },
       "variables": {
         "Type": "List",
         "Computed": true,
@@ -1207,7 +1312,7 @@
       },
       "workspace_id": {
         "Type": "String",
-        "Required": true
+        "Optional": true
       }
     },
     "tfe_workspace": {

@@ -3,7 +3,7 @@
   ".sdk_type": "terraform-plugin-sdk-v1",
   "name": "github",
   "type": "provider",
-  "version": "v4.20.0",
+  "version": "v4.26.1",
   "provider": {
     "app_auth": {
       "Type": "List",
@@ -66,6 +66,15 @@
       "Optional": true,
       "Description": "The GitHub owner name to manage. Use this field instead of `organization` when managing individual accounts.",
       "DefaultFunc": "ENV(GITHUB_OWNER)"
+    },
+    "read_delay_ms": {
+      "Type": "Int",
+      "Optional": true,
+      "Description": "Amount of time in milliseconds to sleep in between non-write requests to GitHub API. Defaults to 0ms if not set.",
+      "Default": {
+        "Type": "int",
+        "Value": "0"
+      }
     },
     "token": {
       "Type": "String",
@@ -458,6 +467,15 @@
                 "ElementsType": "String"
               }
             },
+            "pull_request_bypassers": {
+              "Type": "Set",
+              "Optional": true,
+              "ConfigImplicitMode": "Attr",
+              "Elem": {
+                "Type": "SchemaElements",
+                "ElementsType": "String"
+              }
+            },
             "require_code_owner_reviews": {
               "Type": "Bool",
               "Optional": true
@@ -676,6 +694,158 @@
         }
       }
     },
+    "github_dependabot_organization_secret": {
+      "created_at": {
+        "Type": "String",
+        "Computed": true
+      },
+      "encrypted_value": {
+        "Type": "String",
+        "Optional": true,
+        "ConflictsWith": [
+          "plaintext_value"
+        ]
+      },
+      "plaintext_value": {
+        "Type": "String",
+        "Optional": true,
+        "ConflictsWith": [
+          "encrypted_value"
+        ]
+      },
+      "secret_name": {
+        "Type": "String",
+        "Required": true
+      },
+      "selected_repository_ids": {
+        "Type": "Set",
+        "Optional": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "Int"
+        }
+      },
+      "updated_at": {
+        "Type": "String",
+        "Computed": true
+      },
+      "visibility": {
+        "Type": "String",
+        "Required": true
+      }
+    },
+    "github_dependabot_organization_secret_repositories": {
+      "secret_name": {
+        "Type": "String",
+        "Required": true
+      },
+      "selected_repository_ids": {
+        "Type": "Set",
+        "Required": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "Int"
+        }
+      }
+    },
+    "github_dependabot_secret": {
+      "created_at": {
+        "Type": "String",
+        "Computed": true
+      },
+      "encrypted_value": {
+        "Type": "String",
+        "Optional": true,
+        "ConflictsWith": [
+          "plaintext_value"
+        ]
+      },
+      "plaintext_value": {
+        "Type": "String",
+        "Optional": true,
+        "ConflictsWith": [
+          "encrypted_value"
+        ]
+      },
+      "repository": {
+        "Type": "String",
+        "Required": true
+      },
+      "secret_name": {
+        "Type": "String",
+        "Required": true
+      },
+      "updated_at": {
+        "Type": "String",
+        "Computed": true
+      }
+    },
+    "github_emu_group_mapping": {
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "group_id": {
+        "Type": "Int",
+        "Required": true
+      },
+      "team_slug": {
+        "Type": "String",
+        "Required": true
+      }
+    },
+    "github_issue": {
+      "assignees": {
+        "Type": "Set",
+        "Optional": true,
+        "Description": "List of Logins for Users to assign to this issue",
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "body": {
+        "Type": "String",
+        "Optional": true
+      },
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "issue_id": {
+        "Type": "Int",
+        "Computed": true
+      },
+      "labels": {
+        "Type": "Set",
+        "Optional": true,
+        "Description": "List of names of labels on the issue",
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "milestone_number": {
+        "Type": "Int",
+        "Optional": true
+      },
+      "number": {
+        "Type": "Int",
+        "Computed": true
+      },
+      "repository": {
+        "Type": "String",
+        "Required": true
+      },
+      "title": {
+        "Type": "String",
+        "Required": true
+      }
+    },
     "github_issue_label": {
       "color": {
         "Type": "String",
@@ -817,13 +987,21 @@
         "Type": "String",
         "Required": true
       },
+      "content_id": {
+        "Type": "Int",
+        "Optional": true
+      },
+      "content_type": {
+        "Type": "String",
+        "Optional": true
+      },
       "etag": {
         "Type": "String",
         "Computed": true
       },
       "note": {
         "Type": "String",
-        "Required": true
+        "Optional": true
       }
     },
     "github_project_column": {
@@ -974,6 +1152,10 @@
       "http_clone_url": {
         "Type": "String",
         "Computed": true
+      },
+      "ignore_vulnerability_alerts_during_read": {
+        "Type": "Bool",
+        "Optional": true
       },
       "is_template": {
         "Type": "Bool",
@@ -1839,6 +2021,20 @@
         "Required": true
       }
     },
+    "github_dependabot_public_key": {
+      "key": {
+        "Type": "String",
+        "Computed": true
+      },
+      "key_id": {
+        "Type": "String",
+        "Computed": true
+      },
+      "repository": {
+        "Type": "String",
+        "Required": true
+      }
+    },
     "github_ip_ranges": {
       "actions": {
         "Type": "List",
@@ -2047,6 +2243,10 @@
         "Type": "String",
         "Computed": true
       },
+      "orgname": {
+        "Type": "String",
+        "Computed": true
+      },
       "plan": {
         "Type": "String",
         "Computed": true
@@ -2147,6 +2347,24 @@
             }
           }
         }
+      }
+    },
+    "github_ref": {
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "ref": {
+        "Type": "String",
+        "Required": true
+      },
+      "repository": {
+        "Type": "String",
+        "Required": true
+      },
+      "sha": {
+        "Type": "String",
+        "Computed": true
       }
     },
     "github_release": {
@@ -2769,6 +2987,55 @@
         "Required": true
       }
     },
+    "github_tree": {
+      "entries": {
+        "Type": "List",
+        "Computed": true,
+        "IsBlock": true,
+        "ConfigImplicitMode": "ComputedBlock",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "mode": {
+              "Type": "String",
+              "Computed": true
+            },
+            "path": {
+              "Type": "String",
+              "Computed": true
+            },
+            "sha": {
+              "Type": "String",
+              "Computed": true
+            },
+            "size": {
+              "Type": "Int",
+              "Computed": true
+            },
+            "type": {
+              "Type": "String",
+              "Computed": true
+            }
+          }
+        }
+      },
+      "recursive": {
+        "Type": "Bool",
+        "Optional": true,
+        "Default": {
+          "Type": "bool",
+          "Value": "false"
+        }
+      },
+      "repository": {
+        "Type": "String",
+        "Required": true
+      },
+      "tree_sha": {
+        "Type": "String",
+        "Required": true
+      }
+    },
     "github_user": {
       "avatar_url": {
         "Type": "String",
@@ -2851,6 +3118,10 @@
           "Type": "SchemaElements",
           "ElementsType": "String"
         }
+      },
+      "suspended_at": {
+        "Type": "String",
+        "Computed": true
       },
       "updated_at": {
         "Type": "String",
