@@ -3,7 +3,7 @@
   ".sdk_type": "terraform-plugin-sdk-v2",
   "name": "google-beta",
   "type": "provider",
-  "version": "v4.27.0",
+  "version": "v4.30.0",
   "provider": {
     "access_approval_custom_endpoint": {
       "Type": "String",
@@ -3982,7 +3982,7 @@
       "name": {
         "Type": "String",
         "Required": true,
-        "Description": "The resource name of the key. The name must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. In another word, the name must match the regular expression: [a-z]([a-z0-9-]{0,61}[a-z0-9])?."
+        "Description": "The resource name of the key. The name must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. In another word, the name must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`."
       },
       "project": {
         "Type": "String",
@@ -4133,6 +4133,11 @@
             }
           }
         }
+      },
+      "uid": {
+        "Type": "String",
+        "Description": "Output only. Unique id in UUID4 format.",
+        "Computed": true
       }
     },
     "google_app_engine_application": {
@@ -6415,6 +6420,139 @@
         "Computed": true
       }
     },
+    "google_bigquery_connection_iam_binding": {
+      "condition": {
+        "Type": "List",
+        "Optional": true,
+        "MaxItems": 1,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "description": {
+              "Type": "String",
+              "Optional": true
+            },
+            "expression": {
+              "Type": "String",
+              "Required": true
+            },
+            "title": {
+              "Type": "String",
+              "Required": true
+            }
+          }
+        }
+      },
+      "connection_id": {
+        "Type": "String",
+        "Required": true
+      },
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "location": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "members": {
+        "Type": "Set",
+        "Required": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "role": {
+        "Type": "String",
+        "Required": true
+      }
+    },
+    "google_bigquery_connection_iam_member": {
+      "condition": {
+        "Type": "List",
+        "Optional": true,
+        "MaxItems": 1,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "description": {
+              "Type": "String",
+              "Optional": true
+            },
+            "expression": {
+              "Type": "String",
+              "Required": true
+            },
+            "title": {
+              "Type": "String",
+              "Required": true
+            }
+          }
+        }
+      },
+      "connection_id": {
+        "Type": "String",
+        "Required": true
+      },
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "location": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "member": {
+        "Type": "String",
+        "Required": true
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "role": {
+        "Type": "String",
+        "Required": true
+      }
+    },
+    "google_bigquery_connection_iam_policy": {
+      "connection_id": {
+        "Type": "String",
+        "Required": true
+      },
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "location": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "policy_data": {
+        "Type": "String",
+        "Required": true
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      }
+    },
     "google_bigquery_data_transfer_config": {
       "__timeouts__": [
         "create",
@@ -6486,7 +6624,7 @@
       "params": {
         "Type": "Map",
         "Required": true,
-        "Description": "Parameters specific to each data source. For more information see the bq tab in the 'Setting up a data transfer'\nsection for each data source. For example the parameters for Cloud Storage transfers are listed here:\nhttps://cloud.google.com/bigquery-transfer/docs/cloud-storage-transfer#bq",
+        "Description": "Parameters specific to each data source. For more information see the bq tab in the 'Setting up a data transfer'\nsection for each data source. For example the parameters for Cloud Storage transfers are listed here:\nhttps://cloud.google.com/bigquery-transfer/docs/cloud-storage-transfer#bq\n\n**NOTE** : If you are attempting to update a parameter that cannot be updated (due to api limitations) [please force recreation of the resource](https://www.terraform.io/cli/state/taint#forcing-re-creation-of-resources).",
         "ConfigImplicitMode": "Attr",
         "Elem": {
           "Type": "SchemaElements",
@@ -7592,6 +7730,7 @@
               "Type": "List",
               "Optional": true,
               "Description": "Describes the table where the query results should be stored.\nThis property must be set for large results that exceed the maximum response size.\nFor queries that produce anonymous (cached) results, this field will be populated by BigQuery.",
+              "Computed": true,
               "MaxItems": 1,
               "IsBlock": true,
               "ConfigImplicitMode": "Block",
@@ -9317,6 +9456,7 @@
               "Type": "List",
               "Optional": true,
               "Description": "The full resource name of a monitoring notification\nchannel in the form\nprojects/{project_id}/notificationChannels/{channel_id}.\nA maximum of 5 channels are allowed.",
+              "MaxItems": 5,
               "ConfigImplicitMode": "Attr",
               "Elem": {
                 "Type": "SchemaElements",
@@ -9403,10 +9543,15 @@
         "Elem": {
           "Type": "SchemaInfo",
           "Info": {
+            "calendar_period": {
+              "Type": "String",
+              "Optional": true,
+              "Description": "A CalendarPeriod represents the abstract concept of a recurring time period that has a\ncanonical start. Grammatically, \"the start of the current CalendarPeriod\".\nAll calendar times begin at 12 AM US and Canadian Pacific Time (UTC-8).\n\nExactly one of 'calendar_period', 'custom_period' must be provided. Possible values: [\"MONTH\", \"QUARTER\", \"YEAR\", \"CALENDAR_PERIOD_UNSPECIFIED\"]"
+            },
             "credit_types": {
               "Type": "List",
               "Optional": true,
-              "Description": "A set of subaccounts of the form billingAccounts/{account_id},\nspecifying that usage from only this set of subaccounts should\nbe included in the budget. If a subaccount is set to the name of\nthe parent account, usage from the parent account will be included.\nIf the field is omitted, the report will include usage from the parent\naccount and all subaccounts, if they exist.",
+              "Description": "Optional. If creditTypesTreatment is INCLUDE_SPECIFIED_CREDITS,\nthis is a list of credit types to be subtracted from gross cost to determine the spend for threshold calculations. See a list of acceptable credit type values.\nIf creditTypesTreatment is not INCLUDE_SPECIFIED_CREDITS, this field must be empty.",
               "Computed": true,
               "ConfigImplicitMode": "Attr",
               "Elem": {
@@ -9421,6 +9566,75 @@
               "Default": {
                 "Type": "string",
                 "Value": "INCLUDE_ALL_CREDITS"
+              }
+            },
+            "custom_period": {
+              "Type": "List",
+              "Optional": true,
+              "Description": "Specifies to track usage from any start date (required) to any end date (optional).\nThis time period is static, it does not recur.\n\nExactly one of 'calendar_period', 'custom_period' must be provided.",
+              "MaxItems": 1,
+              "IsBlock": true,
+              "ConfigImplicitMode": "Block",
+              "Elem": {
+                "Type": "SchemaInfo",
+                "Info": {
+                  "end_date": {
+                    "Type": "List",
+                    "Optional": true,
+                    "Description": "Optional. The end date of the time period. Budgets with elapsed end date won't be processed. \nIf unset, specifies to track all usage incurred since the startDate.",
+                    "MaxItems": 1,
+                    "IsBlock": true,
+                    "ConfigImplicitMode": "Block",
+                    "Elem": {
+                      "Type": "SchemaInfo",
+                      "Info": {
+                        "day": {
+                          "Type": "Int",
+                          "Required": true,
+                          "Description": "Day of a month. Must be from 1 to 31 and valid for the year and month."
+                        },
+                        "month": {
+                          "Type": "Int",
+                          "Required": true,
+                          "Description": "Month of a year. Must be from 1 to 12."
+                        },
+                        "year": {
+                          "Type": "Int",
+                          "Required": true,
+                          "Description": "Year of the date. Must be from 1 to 9999."
+                        }
+                      }
+                    }
+                  },
+                  "start_date": {
+                    "Type": "List",
+                    "Required": true,
+                    "Description": "A start date is required. The start date must be after January 1, 2017.",
+                    "MaxItems": 1,
+                    "IsBlock": true,
+                    "ConfigImplicitMode": "Block",
+                    "Elem": {
+                      "Type": "SchemaInfo",
+                      "Info": {
+                        "day": {
+                          "Type": "Int",
+                          "Required": true,
+                          "Description": "Day of a month. Must be from 1 to 31 and valid for the year and month."
+                        },
+                        "month": {
+                          "Type": "Int",
+                          "Required": true,
+                          "Description": "Month of a year. Must be from 1 to 12."
+                        },
+                        "year": {
+                          "Type": "Int",
+                          "Required": true,
+                          "Description": "Year of the date. Must be from 1 to 9999."
+                        }
+                      }
+                    }
+                  }
+                }
               }
             },
             "labels": {
@@ -9481,7 +9695,7 @@
       },
       "threshold_rules": {
         "Type": "List",
-        "Required": true,
+        "Optional": true,
         "Description": "Rules that trigger alerts (notifications of thresholds being\ncrossed) when spend exceeds the specified percentages of the\nbudget.",
         "IsBlock": true,
         "ConfigImplicitMode": "Block",
@@ -9958,6 +10172,171 @@
             }
           }
         }
+      }
+    },
+    "google_certificate_manager_certificate_map": {
+      "__timeouts__": [
+        "create",
+        "update",
+        "delete"
+      ],
+      "create_time": {
+        "Type": "String",
+        "Description": "Creation timestamp of a Certificate Map. Timestamp is in RFC3339 UTC \"Zulu\" format,\naccurate to nanoseconds with up to nine fractional digits.\nExamples: \"2014-10-02T15:01:23Z\" and \"2014-10-02T15:01:23.045123456Z\".",
+        "Computed": true
+      },
+      "description": {
+        "Type": "String",
+        "Optional": true,
+        "Description": "One or more paragraphs of text description of a certificate map entry."
+      },
+      "gclb_targets": {
+        "Type": "List",
+        "Description": "A list of target proxies that use this Certificate Map",
+        "Computed": true,
+        "IsBlock": true,
+        "ConfigImplicitMode": "ComputedBlock",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "ip_configs": {
+              "Type": "List",
+              "Optional": true,
+              "Description": "An IP configuration where this Certificate Map is serving",
+              "IsBlock": true,
+              "ConfigImplicitMode": "Block",
+              "Elem": {
+                "Type": "SchemaInfo",
+                "Info": {
+                  "ip_address": {
+                    "Type": "String",
+                    "Optional": true,
+                    "Description": "An external IP address"
+                  },
+                  "ports": {
+                    "Type": "List",
+                    "Optional": true,
+                    "Description": "A list of ports",
+                    "ConfigImplicitMode": "Attr",
+                    "Elem": {
+                      "Type": "SchemaElements",
+                      "ElementsType": "Int"
+                    }
+                  }
+                }
+              }
+            },
+            "target_https_proxy": {
+              "Type": "String",
+              "Optional": true,
+              "Description": "Proxy name must be in the format projects/*/locations/*/targetHttpsProxies/*.\nThis field is part of a union field 'target_proxy': Only one of 'targetHttpsProxy' or\n'targetSslProxy' may be set."
+            },
+            "target_ssl_proxy": {
+              "Type": "String",
+              "Optional": true,
+              "Description": "Proxy name must be in the format projects/*/locations/*/targetSslProxies/*.\nThis field is part of a union field 'target_proxy': Only one of 'targetHttpsProxy' or\n'targetSslProxy' may be set."
+            }
+          }
+        }
+      },
+      "labels": {
+        "Type": "Map",
+        "Optional": true,
+        "Description": "Set of labels associated with a Certificate Map resource.",
+        "Computed": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "name": {
+        "Type": "String",
+        "Required": true,
+        "Description": "A user-defined name of the Certificate Map. Certificate Map names must be unique\nglobally and match the pattern 'projects/*/locations/*/certificateMaps/*'."
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "update_time": {
+        "Type": "String",
+        "Description": "Update timestamp of a Certificate Map. Timestamp is in RFC3339 UTC \"Zulu\" format,\naccurate to nanoseconds with up to nine fractional digits.\nExamples: \"2014-10-02T15:01:23Z\" and \"2014-10-02T15:01:23.045123456Z\".",
+        "Computed": true
+      }
+    },
+    "google_certificate_manager_certificate_map_entry": {
+      "__timeouts__": [
+        "create",
+        "update",
+        "delete"
+      ],
+      "certificates": {
+        "Type": "List",
+        "Required": true,
+        "Description": "A set of Certificates defines for the given hostname.\nThere can be defined up to fifteen certificates in each Certificate Map Entry.\nEach certificate must match pattern projects/*/locations/*/certificates/*.",
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "create_time": {
+        "Type": "String",
+        "Description": "Creation timestamp of a Certificate Map Entry. Timestamp in RFC3339 UTC \"Zulu\" format, \nwith nanosecond resolution and up to nine fractional digits. \nExamples: \"2014-10-02T15:01:23Z\" and \"2014-10-02T15:01:23.045123456Z\".",
+        "Computed": true
+      },
+      "description": {
+        "Type": "String",
+        "Optional": true,
+        "Description": "CertificateMapEntry is a list of certificate configurations,\nthat have been issued for a particular hostname"
+      },
+      "hostname": {
+        "Type": "String",
+        "Optional": true,
+        "Description": "A Hostname (FQDN, e.g. example.com) or a wildcard hostname expression (*.example.com)\nfor a set of hostnames with common suffix. Used as Server Name Indication (SNI) for\nselecting a proper certificate."
+      },
+      "labels": {
+        "Type": "Map",
+        "Optional": true,
+        "Description": "Set of labels associated with a Certificate Map Entry.\nAn object containing a list of \"key\": value pairs.\nExample: { \"name\": \"wrench\", \"mass\": \"1.3kg\", \"count\": \"3\" }.",
+        "Computed": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "map": {
+        "Type": "String",
+        "Required": true,
+        "Description": "A map entry that is inputted into the cetrificate map"
+      },
+      "matcher": {
+        "Type": "String",
+        "Optional": true,
+        "Description": "A predefined matcher for particular cases, other than SNI selection Possible values: [\"MATCHER_UNSPECIFIED\", \"PRIMARY\"]"
+      },
+      "name": {
+        "Type": "String",
+        "Required": true,
+        "Description": "A user-defined name of the Certificate Map Entry. Certificate Map Entry \nnames must be unique globally and match pattern \n'projects/*/locations/*/certificateMaps/*/certificateMapEntries/*'"
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "state": {
+        "Type": "String",
+        "Description": "A serving state of this Certificate Map Entry.\n\nThe status is undefined.\n\nThe configuration is serving.\n\nUpdate is in progress. Some frontends may serve this configuration.",
+        "Computed": true
+      },
+      "update_time": {
+        "Type": "String",
+        "Description": "Update timestamp of a Certificate Map Entry. Timestamp in RFC3339 UTC \"Zulu\" format, \nwith nanosecond resolution and up to nine fractional digits. \nExamples: \"2014-10-02T15:01:23Z\" and \"2014-10-02T15:01:23.045123456Z\".",
+        "Computed": true
       }
     },
     "google_certificate_manager_dns_authorization": {
@@ -11962,6 +12341,139 @@
         }
       }
     },
+    "google_cloud_tasks_queue_iam_binding": {
+      "condition": {
+        "Type": "List",
+        "Optional": true,
+        "MaxItems": 1,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "description": {
+              "Type": "String",
+              "Optional": true
+            },
+            "expression": {
+              "Type": "String",
+              "Required": true
+            },
+            "title": {
+              "Type": "String",
+              "Required": true
+            }
+          }
+        }
+      },
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "location": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "members": {
+        "Type": "Set",
+        "Required": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "name": {
+        "Type": "String",
+        "Required": true
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "role": {
+        "Type": "String",
+        "Required": true
+      }
+    },
+    "google_cloud_tasks_queue_iam_member": {
+      "condition": {
+        "Type": "List",
+        "Optional": true,
+        "MaxItems": 1,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "description": {
+              "Type": "String",
+              "Optional": true
+            },
+            "expression": {
+              "Type": "String",
+              "Required": true
+            },
+            "title": {
+              "Type": "String",
+              "Required": true
+            }
+          }
+        }
+      },
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "location": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "member": {
+        "Type": "String",
+        "Required": true
+      },
+      "name": {
+        "Type": "String",
+        "Required": true
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "role": {
+        "Type": "String",
+        "Required": true
+      }
+    },
+    "google_cloud_tasks_queue_iam_policy": {
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "location": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "name": {
+        "Type": "String",
+        "Required": true
+      },
+      "policy_data": {
+        "Type": "String",
+        "Required": true
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      }
+    },
     "google_cloudbuild_trigger": {
       "__timeouts__": [
         "create",
@@ -13183,6 +13695,7 @@
         "Type": "List",
         "Optional": true,
         "Description": "Configurations for all execution that relates to this `Target`. Each `ExecutionEnvironmentUsage` value may only be used in a single configuration; using the same value multiple times is an error. When one or more configurations are specified, they must include the `RENDER` and `DEPLOY` `ExecutionEnvironmentUsage` values. When no configurations are specified, execution will use the default specified in `DefaultPool`.",
+        "Computed": true,
         "IsBlock": true,
         "ConfigImplicitMode": "Block",
         "Elem": {
@@ -13191,12 +13704,14 @@
             "artifact_storage": {
               "Type": "String",
               "Optional": true,
-              "Description": "Optional. Cloud Storage location in which to store execution outputs. This can either be a bucket (\"gs://my-bucket\") or a path within a bucket (\"gs://my-bucket/my-dir\"). If unspecified, a default bucket located in the same region will be used."
+              "Description": "Optional. Cloud Storage location in which to store execution outputs. This can either be a bucket (\"gs://my-bucket\") or a path within a bucket (\"gs://my-bucket/my-dir\"). If unspecified, a default bucket located in the same region will be used.",
+              "Computed": true
             },
             "service_account": {
               "Type": "String",
               "Optional": true,
-              "Description": "Optional. Google service account to use for execution. If unspecified, the project execution service account (-compute@developer.gserviceaccount.com) is used."
+              "Description": "Optional. Google service account to use for execution. If unspecified, the project execution service account (-compute@developer.gserviceaccount.com) is used.",
+              "Computed": true
             },
             "usages": {
               "Type": "List",
@@ -14522,6 +15037,139 @@
         "Description": "A PubSub topic to publish device state updates."
       }
     },
+    "google_cloudiot_registry_iam_binding": {
+      "condition": {
+        "Type": "List",
+        "Optional": true,
+        "MaxItems": 1,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "description": {
+              "Type": "String",
+              "Optional": true
+            },
+            "expression": {
+              "Type": "String",
+              "Required": true
+            },
+            "title": {
+              "Type": "String",
+              "Required": true
+            }
+          }
+        }
+      },
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "members": {
+        "Type": "Set",
+        "Required": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "name": {
+        "Type": "String",
+        "Required": true
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "region": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "role": {
+        "Type": "String",
+        "Required": true
+      }
+    },
+    "google_cloudiot_registry_iam_member": {
+      "condition": {
+        "Type": "List",
+        "Optional": true,
+        "MaxItems": 1,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "description": {
+              "Type": "String",
+              "Optional": true
+            },
+            "expression": {
+              "Type": "String",
+              "Required": true
+            },
+            "title": {
+              "Type": "String",
+              "Required": true
+            }
+          }
+        }
+      },
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "member": {
+        "Type": "String",
+        "Required": true
+      },
+      "name": {
+        "Type": "String",
+        "Required": true
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "region": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "role": {
+        "Type": "String",
+        "Required": true
+      }
+    },
+    "google_cloudiot_registry_iam_policy": {
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "name": {
+        "Type": "String",
+        "Required": true
+      },
+      "policy_data": {
+        "Type": "String",
+        "Required": true
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "region": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      }
+    },
     "google_composer_environment": {
       "__timeouts__": [
         "create",
@@ -14571,7 +15219,7 @@
             "encryption_config": {
               "Type": "List",
               "Optional": true,
-              "Description": "The encryption options for the Composer environment and its dependencies. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.",
+              "Description": "The encryption options for the Composer environment and its dependencies.",
               "Computed": true,
               "MaxItems": 1,
               "IsBlock": true,
@@ -15599,6 +16247,24 @@
         "Elem": {
           "Type": "SchemaInfo",
           "Info": {
+            "bypass_cache_on_request_headers": {
+              "Type": "List",
+              "Optional": true,
+              "Description": "Bypass the cache when the specified request headers are matched - e.g. Pragma or Authorization headers. Up to 5 headers can be specified. The cache is bypassed for all cdnPolicy.cacheMode settings.",
+              "MaxItems": 5,
+              "IsBlock": true,
+              "ConfigImplicitMode": "Block",
+              "Elem": {
+                "Type": "SchemaInfo",
+                "Info": {
+                  "header_name": {
+                    "Type": "String",
+                    "Optional": true,
+                    "Description": "The header field name to match on when bypassing cache. Values are case-insensitive."
+                  }
+                }
+              }
+            },
             "cache_key_policy": {
               "Type": "List",
               "Optional": true,
@@ -15684,6 +16350,11 @@
                 }
               }
             },
+            "request_coalescing": {
+              "Type": "Bool",
+              "Optional": true,
+              "Description": "If true then Cloud CDN will combine multiple concurrent cache fill requests into a small number of requests to the origin."
+            },
             "serve_while_stale": {
               "Type": "Int",
               "Optional": true,
@@ -15743,6 +16414,124 @@
         "Computed": true
       }
     },
+    "google_compute_backend_bucket_iam_binding": {
+      "condition": {
+        "Type": "List",
+        "Optional": true,
+        "MaxItems": 1,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "description": {
+              "Type": "String",
+              "Optional": true
+            },
+            "expression": {
+              "Type": "String",
+              "Required": true
+            },
+            "title": {
+              "Type": "String",
+              "Required": true
+            }
+          }
+        }
+      },
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "members": {
+        "Type": "Set",
+        "Required": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "name": {
+        "Type": "String",
+        "Required": true
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "role": {
+        "Type": "String",
+        "Required": true
+      }
+    },
+    "google_compute_backend_bucket_iam_member": {
+      "condition": {
+        "Type": "List",
+        "Optional": true,
+        "MaxItems": 1,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "description": {
+              "Type": "String",
+              "Optional": true
+            },
+            "expression": {
+              "Type": "String",
+              "Required": true
+            },
+            "title": {
+              "Type": "String",
+              "Required": true
+            }
+          }
+        }
+      },
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "member": {
+        "Type": "String",
+        "Required": true
+      },
+      "name": {
+        "Type": "String",
+        "Required": true
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "role": {
+        "Type": "String",
+        "Required": true
+      }
+    },
+    "google_compute_backend_bucket_iam_policy": {
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "name": {
+        "Type": "String",
+        "Required": true
+      },
+      "policy_data": {
+        "Type": "String",
+        "Required": true
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      }
+    },
     "google_compute_backend_bucket_signed_url_key": {
       "__timeouts__": [
         "create",
@@ -15792,7 +16581,7 @@
             "balancing_mode": {
               "Type": "String",
               "Optional": true,
-              "Description": "Specifies the balancing mode for this backend.\n\nFor global HTTP(S) or TCP/SSL load balancing, the default is\nUTILIZATION. Valid values are UTILIZATION, RATE (for HTTP(S))\nand CONNECTION (for TCP/SSL). Default value: \"UTILIZATION\" Possible values: [\"UTILIZATION\", \"RATE\", \"CONNECTION\"]",
+              "Description": "Specifies the balancing mode for this backend.\n\nFor global HTTP(S) or TCP/SSL load balancing, the default is\nUTILIZATION. Valid values are UTILIZATION, RATE (for HTTP(S))\nand CONNECTION (for TCP/SSL).\n\nSee the [Backend Services Overview](https://cloud.google.com/load-balancing/docs/backend-service#balancing-mode)\nfor an explanation of load balancing modes. Default value: \"UTILIZATION\" Possible values: [\"UTILIZATION\", \"RATE\", \"CONNECTION\"]",
               "Default": {
                 "Type": "string",
                 "Value": "UTILIZATION"
@@ -16747,7 +17536,8 @@
       "provisioned_iops": {
         "Type": "Int",
         "Optional": true,
-        "Description": "Indicates how many IOPS must be provisioned for the disk."
+        "Description": "Indicates how many IOPS must be provisioned for the disk.",
+        "Computed": true
       },
       "resource_policies": {
         "Type": "List",
@@ -17271,8 +18061,8 @@
         "Optional": true,
         "Description": "If source tags are specified, the firewall will apply only to traffic\nwith source IP that belongs to a tag listed in source tags. Source\ntags cannot be used to control traffic to an instance's external IP\naddress. Because tags are associated with an instance, not an IP\naddress. One or both of sourceRanges and sourceTags may be set. If\nboth properties are set, the firewall will apply to traffic that has\nsource IP address within sourceRanges OR the source IP that belongs to\na tag listed in the sourceTags property. The connection does not need\nto match both properties for the firewall to apply. For INGRESS traffic,\none of 'source_ranges', 'source_tags' or 'source_service_accounts' is required.",
         "ConflictsWith": [
-          "destination_ranges",
           "source_service_accounts",
+          "destination_ranges",
           "target_service_accounts"
         ],
         "ConfigImplicitMode": "Attr",
@@ -19457,6 +20247,11 @@
                 "Value": "true"
               }
             },
+            "instance_termination_action": {
+              "Type": "String",
+              "Optional": true,
+              "Description": "Specifies the action GCE should take when SPOT VM is preempted."
+            },
             "min_node_cpus": {
               "Type": "Int",
               "Optional": true
@@ -20201,6 +20996,12 @@
               "Type": "Bool",
               "Optional": true,
               "Description": "Specifies if the instance should be restarted if it was terminated by Compute Engine (not a user).",
+              "Computed": true
+            },
+            "instance_termination_action": {
+              "Type": "String",
+              "Optional": true,
+              "Description": "Specifies the action GCE should take when SPOT VM is preempted.",
               "Computed": true
             },
             "min_node_cpus": {
@@ -20956,6 +21757,12 @@
               "Description": "Specifies if the instance should be restarted if it was terminated by Compute Engine (not a user).",
               "Computed": true
             },
+            "instance_termination_action": {
+              "Type": "String",
+              "Optional": true,
+              "Description": "Specifies the action GCE should take when SPOT VM is preempted.",
+              "Computed": true
+            },
             "min_node_cpus": {
               "Type": "Int",
               "Optional": true,
@@ -21207,6 +22014,39 @@
         "update",
         "delete"
       ],
+      "all_instances_config": {
+        "Type": "List",
+        "Optional": true,
+        "Description": "Specifies configuration that overrides the instance template configuration for the group.",
+        "MaxItems": 1,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "labels": {
+              "Type": "Map",
+              "Optional": true,
+              "Description": "The label key-value pairs that you want to patch onto the instance,",
+              "ConfigImplicitMode": "Attr",
+              "Elem": {
+                "Type": "SchemaElements",
+                "ElementsType": "String"
+              }
+            },
+            "metadata": {
+              "Type": "Map",
+              "Optional": true,
+              "Description": "The metadata key-value pairs that you want to patch onto the instance. For more information, see Project and instance metadata,",
+              "ConfigImplicitMode": "Attr",
+              "Elem": {
+                "Type": "SchemaElements",
+                "ElementsType": "String"
+              }
+            }
+          }
+        }
+      },
       "auto_healing_policies": {
         "Type": "List",
         "Optional": true,
@@ -21327,6 +22167,23 @@
         "Elem": {
           "Type": "SchemaInfo",
           "Info": {
+            "all_instances_config": {
+              "Type": "List",
+              "Description": "Status of all-instances configuration on the group.",
+              "Computed": true,
+              "IsBlock": true,
+              "ConfigImplicitMode": "ComputedBlock",
+              "Elem": {
+                "Type": "SchemaInfo",
+                "Info": {
+                  "effective": {
+                    "Type": "Bool",
+                    "Description": "A bit indicating whether this configuration has been applied to all managed instances in the group.",
+                    "Computed": true
+                  }
+                }
+              }
+            },
             "is_stable": {
               "Type": "Bool",
               "Description": "A bit indicating whether the managed instance group is in a stable state. A stable state means that: none of the instances in the managed instance group is currently undergoing any type of change (for example, creation, restart, or deletion); no future changes are scheduled for instances in the managed instance group; and the managed instance group itself is not being modified.",
@@ -21532,7 +22389,7 @@
       "wait_for_instances_status": {
         "Type": "String",
         "Optional": true,
-        "Description": "When used with wait_for_instances specifies the status to wait for. When STABLE is specified this resource will wait until the instances are stable before returning. When UPDATED is set, it will wait for the version target to be reached and any per instance configs to be effective as well as all instances to be stable before returning.",
+        "Description": "When used with wait_for_instances specifies the status to wait for. When STABLE is specified this resource will wait until the instances are stable before returning. When UPDATED is set, it will wait for the version target to be reached and any per instance configs to be effective and all instances configs to be effective as well as all instances to be stable before returning.",
         "Default": {
           "Type": "string",
           "Value": "STABLE"
@@ -22214,6 +23071,11 @@
                 "Type": "bool",
                 "Value": "true"
               }
+            },
+            "instance_termination_action": {
+              "Type": "String",
+              "Optional": true,
+              "Description": "Specifies the action GCE should take when SPOT VM is preempted."
             },
             "min_node_cpus": {
               "Type": "Int",
@@ -22942,7 +23804,7 @@
       "network_endpoint_type": {
         "Type": "String",
         "Optional": true,
-        "Description": "Type of network endpoints in this network endpoint group.\nNON_GCP_PRIVATE_IP_PORT is used for hybrid connectivity network\nendpoint groups (see https://cloud.google.com/load-balancing/docs/hybrid).\nNote that NON_GCP_PRIVATE_IP_PORT can only be used with Backend Services\nthat 1) have the following load balancing schemes: EXTERNAL, EXTERNAL_MANAGED,\nINTERNAL_MANAGED, and INTERNAL_SELF_MANAGED and 2) support the RATE or\nCONNECTION balancing modes. Default value: \"GCE_VM_IP_PORT\" Possible values: [\"GCE_VM_IP_PORT\", \"NON_GCP_PRIVATE_IP_PORT\"]",
+        "Description": "Type of network endpoints in this network endpoint group.\nNON_GCP_PRIVATE_IP_PORT is used for hybrid connectivity network\nendpoint groups (see https://cloud.google.com/load-balancing/docs/hybrid).\nNote that NON_GCP_PRIVATE_IP_PORT can only be used with Backend Services\nthat 1) have the following load balancing schemes: EXTERNAL, EXTERNAL_MANAGED,\nINTERNAL_MANAGED, and INTERNAL_SELF_MANAGED and 2) support the RATE or\nCONNECTION balancing modes.\n\nPossible values include: GCE_VM_IP, GCE_VM_IP_PORT, and NON_GCP_PRIVATE_IP_PORT. Default value: \"GCE_VM_IP_PORT\" Possible values: [\"GCE_VM_IP\", \"GCE_VM_IP_PORT\", \"NON_GCP_PRIVATE_IP_PORT\"]",
         "Default": {
           "Type": "string",
           "Value": "GCE_VM_IP_PORT"
@@ -23570,7 +24432,7 @@
             "ip_protocols": {
               "Type": "List",
               "Optional": true,
-              "Description": "Protocols that apply as a filter on mirrored traffic. Possible values: [\"tcp\", \"udp\", \"icmp\"]",
+              "Description": "Possible IP protocols including tcp, udp, icmp and esp",
               "ConfigImplicitMode": "Attr",
               "Elem": {
                 "Type": "SchemaElements",
@@ -24178,7 +25040,7 @@
             "balancing_mode": {
               "Type": "String",
               "Optional": true,
-              "Description": "Specifies the balancing mode for this backend. Default value: \"CONNECTION\" Possible values: [\"UTILIZATION\", \"RATE\", \"CONNECTION\"]",
+              "Description": "Specifies the balancing mode for this backend.\n\nSee the [Backend Services Overview](https://cloud.google.com/load-balancing/docs/backend-service#balancing-mode)\nfor an explanation of load balancing modes. Default value: \"CONNECTION\" Possible values: [\"UTILIZATION\", \"RATE\", \"CONNECTION\"]",
               "Default": {
                 "Type": "string",
                 "Value": "CONNECTION"
@@ -25788,6 +26650,39 @@
         "update",
         "delete"
       ],
+      "all_instances_config": {
+        "Type": "List",
+        "Optional": true,
+        "Description": "Specifies configuration that overrides the instance template configuration for the group.",
+        "MaxItems": 1,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "labels": {
+              "Type": "Map",
+              "Optional": true,
+              "Description": "The label key-value pairs that you want to patch onto the instance,",
+              "ConfigImplicitMode": "Attr",
+              "Elem": {
+                "Type": "SchemaElements",
+                "ElementsType": "String"
+              }
+            },
+            "metadata": {
+              "Type": "Map",
+              "Optional": true,
+              "Description": "The metadata key-value pairs that you want to patch onto the instance. For more information, see Project and instance metadata,",
+              "ConfigImplicitMode": "Attr",
+              "Elem": {
+                "Type": "SchemaElements",
+                "ElementsType": "String"
+              }
+            }
+          }
+        }
+      },
       "auto_healing_policies": {
         "Type": "List",
         "Optional": true,
@@ -25927,6 +26822,23 @@
         "Elem": {
           "Type": "SchemaInfo",
           "Info": {
+            "all_instances_config": {
+              "Type": "List",
+              "Description": "Status of all-instances configuration on the group.",
+              "Computed": true,
+              "IsBlock": true,
+              "ConfigImplicitMode": "ComputedBlock",
+              "Elem": {
+                "Type": "SchemaInfo",
+                "Info": {
+                  "effective": {
+                    "Type": "Bool",
+                    "Description": "A bit indicating whether this configuration has been applied to all managed instances in the group.",
+                    "Computed": true
+                  }
+                }
+              }
+            },
             "is_stable": {
               "Type": "Bool",
               "Description": "A bit indicating whether the managed instance group is in a stable state. A stable state means that: none of the instances in the managed instance group is currently undergoing any type of change (for example, creation, restart, or deletion); no future changes are scheduled for instances in the managed instance group; and the managed instance group itself is not being modified.",
@@ -26137,7 +27049,7 @@
       "wait_for_instances_status": {
         "Type": "String",
         "Optional": true,
-        "Description": "When used with wait_for_instances specifies the status to wait for. When STABLE is specified this resource will wait until the instances are stable before returning. When UPDATED is set, it will wait for the version target to be reached and any per instance configs to be effective as well as all instances to be stable before returning.",
+        "Description": "When used with wait_for_instances specifies the status to wait for. When STABLE is specified this resource will wait until the instances are stable before returning. When UPDATED is set, it will wait for the version target to be reached and any per instance configs to be effective and all instances configs to be effective as well as all instances to be stable before returning.",
         "Default": {
           "Type": "string",
           "Value": "STABLE"
@@ -26216,8 +27128,8 @@
         "Description": "Only valid when networkEndpointType is \"SERVERLESS\".\nOnly one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.",
         "MaxItems": 1,
         "ConflictsWith": [
-          "app_engine",
           "cloud_function",
+          "app_engine",
           "serverless_deployment"
         ],
         "IsBlock": true,
@@ -26288,8 +27200,8 @@
         "MaxItems": 1,
         "ConflictsWith": [
           "cloud_run",
-          "app_engine",
-          "cloud_function"
+          "cloud_function",
+          "app_engine"
         ],
         "IsBlock": true,
         "ConfigImplicitMode": "Block",
@@ -28341,8 +29253,8 @@
         "Description": "Resource policy for instances used for placement configuration.",
         "MaxItems": 1,
         "ConflictsWith": [
-          "snapshot_schedule_policy",
-          "instance_schedule_policy"
+          "instance_schedule_policy",
+          "snapshot_schedule_policy"
         ],
         "IsBlock": true,
         "ConfigImplicitMode": "Block",
@@ -29864,6 +30776,124 @@
         "Type": "String",
         "Optional": true,
         "Description": "A reference to the zone where the disk is hosted.",
+        "Computed": true
+      }
+    },
+    "google_compute_snapshot_iam_binding": {
+      "condition": {
+        "Type": "List",
+        "Optional": true,
+        "MaxItems": 1,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "description": {
+              "Type": "String",
+              "Optional": true
+            },
+            "expression": {
+              "Type": "String",
+              "Required": true
+            },
+            "title": {
+              "Type": "String",
+              "Required": true
+            }
+          }
+        }
+      },
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "members": {
+        "Type": "Set",
+        "Required": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "name": {
+        "Type": "String",
+        "Required": true
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "role": {
+        "Type": "String",
+        "Required": true
+      }
+    },
+    "google_compute_snapshot_iam_member": {
+      "condition": {
+        "Type": "List",
+        "Optional": true,
+        "MaxItems": 1,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "description": {
+              "Type": "String",
+              "Optional": true
+            },
+            "expression": {
+              "Type": "String",
+              "Required": true
+            },
+            "title": {
+              "Type": "String",
+              "Required": true
+            }
+          }
+        }
+      },
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "member": {
+        "Type": "String",
+        "Required": true
+      },
+      "name": {
+        "Type": "String",
+        "Required": true
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "role": {
+        "Type": "String",
+        "Required": true
+      }
+    },
+    "google_compute_snapshot_iam_policy": {
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "name": {
+        "Type": "String",
+        "Required": true
+      },
+      "policy_data": {
+        "Type": "String",
+        "Required": true
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
         "Computed": true
       }
     },
@@ -35142,7 +36172,7 @@
             "gce_persistent_disk_csi_driver_config": {
               "Type": "List",
               "Optional": true,
-              "Description": "Whether this cluster should enable the Google Compute Engine Persistent Disk Container Storage Interface (CSI) Driver. Defaults to disabled; set enabled = true to enable.",
+              "Description": "Whether this cluster should enable the Google Compute Engine Persistent Disk Container Storage Interface (CSI) Driver. Defaults to enabled; set disabled = true to disable.",
               "Computed": true,
               "MaxItems": 1,
               "IsBlock": true,
@@ -35313,6 +36343,40 @@
               "Type": "String",
               "Required": true,
               "Description": "The name of the RBAC security group for use with Google security groups in Kubernetes RBAC. Group name must be in format gke-security-groups@yourdomain.com."
+            }
+          }
+        }
+      },
+      "binary_authorization": {
+        "Type": "List",
+        "Optional": true,
+        "Description": "Configuration options for the Binary Authorization feature.",
+        "MaxItems": 1,
+        "ConflictsWith": [
+          "enable_binary_authorization"
+        ],
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "enabled": {
+              "Type": "Bool",
+              "Optional": true,
+              "Description": "Enable Binary Authorization for this cluster.",
+              "ConflictsWith": [
+                "enable_autopilot",
+                "binary_authorization.0.evaluation_mode"
+              ],
+              "Deprecated": "Deprecated in favor of evaluation_mode."
+            },
+            "evaluation_mode": {
+              "Type": "String",
+              "Optional": true,
+              "Description": "Mode of operation for Binary Authorization policy evaluation.",
+              "ConflictsWith": [
+                "binary_authorization.0.enabled"
+              ]
             }
           }
         }
@@ -35579,8 +36643,10 @@
         "Optional": true,
         "Description": "Enable Binary Authorization for this cluster. If enabled, all container images will be validated by Google Binary Authorization.",
         "ConflictsWith": [
-          "enable_autopilot"
+          "enable_autopilot",
+          "binary_authorization"
         ],
+        "Deprecated": "Deprecated in favor of binary_authorization.",
         "Default": {
           "Type": "bool",
           "Value": "false"
@@ -36273,7 +37339,8 @@
             "min_cpu_platform": {
               "Type": "String",
               "Optional": true,
-              "Description": "Minimum CPU platform to be used by this instance. The instance may be scheduled on the specified or newer CPU platform."
+              "Description": "Minimum CPU platform to be used by this instance. The instance may be scheduled on the specified or newer CPU platform.",
+              "Computed": true
             },
             "node_group": {
               "Type": "String",
@@ -36780,7 +37847,8 @@
                   "min_cpu_platform": {
                     "Type": "String",
                     "Optional": true,
-                    "Description": "Minimum CPU platform to be used by this instance. The instance may be scheduled on the specified or newer CPU platform."
+                    "Description": "Minimum CPU platform to be used by this instance. The instance may be scheduled on the specified or newer CPU platform.",
+                    "Computed": true
                   },
                   "node_group": {
                     "Type": "String",
@@ -37667,7 +38735,8 @@
             "min_cpu_platform": {
               "Type": "String",
               "Optional": true,
-              "Description": "Minimum CPU platform to be used by this instance. The instance may be scheduled on the specified or newer CPU platform."
+              "Description": "Minimum CPU platform to be used by this instance. The instance may be scheduled on the specified or newer CPU platform.",
+              "Computed": true
             },
             "node_group": {
               "Type": "String",
@@ -41289,6 +42358,139 @@
         }
       }
     },
+    "google_dataproc_autoscaling_policy_iam_binding": {
+      "condition": {
+        "Type": "List",
+        "Optional": true,
+        "MaxItems": 1,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "description": {
+              "Type": "String",
+              "Optional": true
+            },
+            "expression": {
+              "Type": "String",
+              "Required": true
+            },
+            "title": {
+              "Type": "String",
+              "Required": true
+            }
+          }
+        }
+      },
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "location": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "members": {
+        "Type": "Set",
+        "Required": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "policy_id": {
+        "Type": "String",
+        "Required": true
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "role": {
+        "Type": "String",
+        "Required": true
+      }
+    },
+    "google_dataproc_autoscaling_policy_iam_member": {
+      "condition": {
+        "Type": "List",
+        "Optional": true,
+        "MaxItems": 1,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "description": {
+              "Type": "String",
+              "Optional": true
+            },
+            "expression": {
+              "Type": "String",
+              "Required": true
+            },
+            "title": {
+              "Type": "String",
+              "Required": true
+            }
+          }
+        }
+      },
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "location": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "member": {
+        "Type": "String",
+        "Required": true
+      },
+      "policy_id": {
+        "Type": "String",
+        "Required": true
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "role": {
+        "Type": "String",
+        "Required": true
+      }
+    },
+    "google_dataproc_autoscaling_policy_iam_policy": {
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "location": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "policy_data": {
+        "Type": "String",
+        "Required": true
+      },
+      "policy_id": {
+        "Type": "String",
+        "Required": true
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      }
+    },
     "google_dataproc_cluster": {
       "__timeouts__": [
         "create",
@@ -43075,6 +44277,227 @@
         "Computed": true
       }
     },
+    "google_dataproc_metastore_federation": {
+      "__timeouts__": [
+        "create",
+        "update",
+        "delete"
+      ],
+      "backend_metastores": {
+        "Type": "Set",
+        "Required": true,
+        "Description": "A map from BackendMetastore rank to BackendMetastores from which the federation service serves metadata at query time. The map key represents the order in which BackendMetastores should be evaluated to resolve database names at query time and should be greater than or equal to zero. A BackendMetastore with a lower number will be evaluated before a BackendMetastore with a higher number.",
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "metastore_type": {
+              "Type": "String",
+              "Required": true,
+              "Description": "The type of the backend metastore. Possible values: [\"METASTORE_TYPE_UNSPECIFIED\", \"DATAPROC_METASTORE\"]"
+            },
+            "name": {
+              "Type": "String",
+              "Required": true,
+              "Description": "The relative resource name of the metastore that is being federated."
+            },
+            "rank": {
+              "Type": "String",
+              "Required": true
+            }
+          }
+        }
+      },
+      "endpoint_uri": {
+        "Type": "String",
+        "Description": "The URI of the endpoint used to access the metastore federation.",
+        "Computed": true
+      },
+      "federation_id": {
+        "Type": "String",
+        "Required": true,
+        "Description": "The ID of the metastore federation. The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_),\nand hyphens (-). Cannot begin or end with underscore or hyphen. Must consist of between\n3 and 63 characters."
+      },
+      "labels": {
+        "Type": "Map",
+        "Optional": true,
+        "Description": "User-defined labels for the metastore federation.",
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "location": {
+        "Type": "String",
+        "Optional": true,
+        "Description": "The location where the metastore federation should reside."
+      },
+      "name": {
+        "Type": "String",
+        "Description": "The relative resource name of the metastore federation.",
+        "Computed": true
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "state": {
+        "Type": "String",
+        "Description": "The current state of the metastore federation.",
+        "Computed": true
+      },
+      "state_message": {
+        "Type": "String",
+        "Description": "Additional information about the current state of the metastore federation, if available.",
+        "Computed": true
+      },
+      "uid": {
+        "Type": "String",
+        "Description": "The globally unique resource identifier of the metastore federation.",
+        "Computed": true
+      },
+      "version": {
+        "Type": "String",
+        "Required": true,
+        "Description": "The Apache Hive metastore version of the federation. All backend metastore versions must be compatible with the federation version."
+      }
+    },
+    "google_dataproc_metastore_federation_iam_binding": {
+      "condition": {
+        "Type": "List",
+        "Optional": true,
+        "MaxItems": 1,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "description": {
+              "Type": "String",
+              "Optional": true
+            },
+            "expression": {
+              "Type": "String",
+              "Required": true
+            },
+            "title": {
+              "Type": "String",
+              "Required": true
+            }
+          }
+        }
+      },
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "federation_id": {
+        "Type": "String",
+        "Required": true
+      },
+      "location": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "members": {
+        "Type": "Set",
+        "Required": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "role": {
+        "Type": "String",
+        "Required": true
+      }
+    },
+    "google_dataproc_metastore_federation_iam_member": {
+      "condition": {
+        "Type": "List",
+        "Optional": true,
+        "MaxItems": 1,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "description": {
+              "Type": "String",
+              "Optional": true
+            },
+            "expression": {
+              "Type": "String",
+              "Required": true
+            },
+            "title": {
+              "Type": "String",
+              "Required": true
+            }
+          }
+        }
+      },
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "federation_id": {
+        "Type": "String",
+        "Required": true
+      },
+      "location": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "member": {
+        "Type": "String",
+        "Required": true
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "role": {
+        "Type": "String",
+        "Required": true
+      }
+    },
+    "google_dataproc_metastore_federation_iam_policy": {
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "federation_id": {
+        "Type": "String",
+        "Required": true
+      },
+      "location": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "policy_data": {
+        "Type": "String",
+        "Required": true
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      }
+    },
     "google_dataproc_metastore_service": {
       "__timeouts__": [
         "create",
@@ -43085,6 +44508,15 @@
         "Type": "String",
         "Description": "A Cloud Storage URI (starting with gs://) that specifies where artifacts related to the metastore service are stored.",
         "Computed": true
+      },
+      "database_type": {
+        "Type": "String",
+        "Optional": true,
+        "Description": "The database type that the Metastore service stores its data. Default value: \"MYSQL\" Possible values: [\"MYSQL\", \"SPANNER\"]",
+        "Default": {
+          "Type": "string",
+          "Value": "MYSQL"
+        }
       },
       "encryption_config": {
         "Type": "List",
@@ -43128,6 +44560,15 @@
               "Elem": {
                 "Type": "SchemaElements",
                 "ElementsType": "String"
+              }
+            },
+            "endpoint_protocol": {
+              "Type": "String",
+              "Optional": true,
+              "Description": "The protocol to use for the metastore service endpoint. If unspecified, defaults to 'THRIFT'. Default value: \"THRIFT\" Possible values: [\"THRIFT\", \"GRPC\"]",
+              "Default": {
+                "Type": "string",
+                "Value": "THRIFT"
               }
             },
             "kerberos_config": {
@@ -43192,7 +44633,7 @@
       "location": {
         "Type": "String",
         "Optional": true,
-        "Description": "The  location where the autoscaling policy should reside.\nThe default value is 'global'.",
+        "Description": "The location where the metastore service should reside.\nThe default value is 'global'.",
         "Default": {
           "Type": "string",
           "Value": "global"
@@ -43201,7 +44642,7 @@
       "maintenance_window": {
         "Type": "List",
         "Optional": true,
-        "Description": "The one hour maintenance window of the metastore service.\nThis specifies when the service can be restarted for maintenance purposes in UTC time.",
+        "Description": "The one hour maintenance window of the metastore service.\nThis specifies when the service can be restarted for maintenance purposes in UTC time.\nMaintenance window is not needed for services with the 'SPANNER' database type.",
         "MaxItems": 1,
         "IsBlock": true,
         "ConfigImplicitMode": "Block",
@@ -43243,6 +44684,15 @@
         "Optional": true,
         "Computed": true
       },
+      "release_channel": {
+        "Type": "String",
+        "Optional": true,
+        "Description": "The release channel of the service. If unspecified, defaults to 'STABLE'. Default value: \"STABLE\" Possible values: [\"CANARY\", \"STABLE\"]",
+        "Default": {
+          "Type": "string",
+          "Value": "STABLE"
+        }
+      },
       "service_id": {
         "Type": "String",
         "Required": true,
@@ -43263,6 +44713,144 @@
         "Optional": true,
         "Description": "The tier of the service. Possible values: [\"DEVELOPER\", \"ENTERPRISE\"]",
         "Computed": true
+      },
+      "uid": {
+        "Type": "String",
+        "Description": "The globally unique resource identifier of the metastore service.",
+        "Computed": true
+      }
+    },
+    "google_dataproc_metastore_service_iam_binding": {
+      "condition": {
+        "Type": "List",
+        "Optional": true,
+        "MaxItems": 1,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "description": {
+              "Type": "String",
+              "Optional": true
+            },
+            "expression": {
+              "Type": "String",
+              "Required": true
+            },
+            "title": {
+              "Type": "String",
+              "Required": true
+            }
+          }
+        }
+      },
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "location": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "members": {
+        "Type": "Set",
+        "Required": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "role": {
+        "Type": "String",
+        "Required": true
+      },
+      "service_id": {
+        "Type": "String",
+        "Required": true
+      }
+    },
+    "google_dataproc_metastore_service_iam_member": {
+      "condition": {
+        "Type": "List",
+        "Optional": true,
+        "MaxItems": 1,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "description": {
+              "Type": "String",
+              "Optional": true
+            },
+            "expression": {
+              "Type": "String",
+              "Required": true
+            },
+            "title": {
+              "Type": "String",
+              "Required": true
+            }
+          }
+        }
+      },
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "location": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "member": {
+        "Type": "String",
+        "Required": true
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "role": {
+        "Type": "String",
+        "Required": true
+      },
+      "service_id": {
+        "Type": "String",
+        "Required": true
+      }
+    },
+    "google_dataproc_metastore_service_iam_policy": {
+      "etag": {
+        "Type": "String",
+        "Computed": true
+      },
+      "location": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "policy_data": {
+        "Type": "String",
+        "Required": true
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Computed": true
+      },
+      "service_id": {
+        "Type": "String",
+        "Required": true
       }
     },
     "google_dataproc_workflow_template": {
@@ -48318,7 +49906,7 @@
       "name": {
         "Type": "String",
         "Required": true,
-        "Description": "Format: `projects/{project_id}/releases/{release_id}`"
+        "Description": "Format: `projects/{project_id}/releases/{release_id}`\\Firestore Rules Releases will **always** have the name 'cloud.firestore'"
       },
       "project": {
         "Type": "String",
@@ -48329,7 +49917,7 @@
       "ruleset_name": {
         "Type": "String",
         "Required": true,
-        "Description": "Name of the `Ruleset` referred to by this `Release`. The `Ruleset` must exist the `Release` to be created."
+        "Description": "Name of the `Ruleset` referred to by this `Release`. The `Ruleset` must exist for the `Release` to be created."
       },
       "update_time": {
         "Type": "String",
@@ -49582,7 +51170,7 @@
                         "secret_type": {
                           "Type": "String",
                           "Optional": true,
-                          "Description": "Type of secret configured for access to the Git repo."
+                          "Description": "Type of secret configured for access to the Git repo. Must be one of ssh, cookiefile, gcenode, token, gcpserviceaccount or none. The validation of this is case-sensitive."
                         },
                         "sync_branch": {
                           "Type": "String",
@@ -49683,6 +51271,36 @@
                     "Type": "Bool",
                     "Optional": true,
                     "Description": "Logs all denies and dry run failures."
+                  },
+                  "monitoring": {
+                    "Type": "List",
+                    "Optional": true,
+                    "Description": "Specifies the backends Policy Controller should export metrics to. For example, to specify metrics should be exported to Cloud Monitoring and Prometheus, specify backends: [\"cloudmonitoring\", \"prometheus\"]. Default: [\"cloudmonitoring\", \"prometheus\"]",
+                    "Computed": true,
+                    "MaxItems": 1,
+                    "IsBlock": true,
+                    "ConfigImplicitMode": "Block",
+                    "Elem": {
+                      "Type": "SchemaInfo",
+                      "Info": {
+                        "backends": {
+                          "Type": "List",
+                          "Optional": true,
+                          "Description": " Specifies the list of backends Policy Controller will export to. Specifying an empty value `[]` disables metrics export.",
+                          "Computed": true,
+                          "ConfigImplicitMode": "Attr",
+                          "Elem": {
+                            "Type": "SchemaElements",
+                            "ElementsType": "String"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "mutation_enabled": {
+                    "Type": "Bool",
+                    "Optional": true,
+                    "Description": "Enable or disable mutation in policy controller. If true, mutation CRDs, webhook and controller deployment will be deployed to the cluster."
                   },
                   "referential_rules_enabled": {
                     "Type": "Bool",
@@ -52520,7 +54138,7 @@
       "purpose": {
         "Type": "String",
         "Optional": true,
-        "Description": "The immutable purpose of this CryptoKey. See the\n[purpose reference](https://cloud.google.com/kms/docs/reference/rest/v1/projects.locations.keyRings.cryptoKeys#CryptoKeyPurpose)\nfor possible inputs. Default value: \"ENCRYPT_DECRYPT\" Possible values: [\"ENCRYPT_DECRYPT\", \"ASYMMETRIC_SIGN\", \"ASYMMETRIC_DECRYPT\"]",
+        "Description": "The immutable purpose of this CryptoKey. See the\n[purpose reference](https://cloud.google.com/kms/docs/reference/rest/v1/projects.locations.keyRings.cryptoKeys#CryptoKeyPurpose)\nfor possible inputs. Default value: \"ENCRYPT_DECRYPT\" Possible values: [\"ENCRYPT_DECRYPT\", \"ASYMMETRIC_SIGN\", \"ASYMMETRIC_DECRYPT\", \"MAC\"]",
         "Default": {
           "Type": "string",
           "Value": "ENCRYPT_DECRYPT"
@@ -52555,7 +54173,7 @@
             "protection_level": {
               "Type": "String",
               "Optional": true,
-              "Description": "The protection level to use when creating a version based on this template. Possible values include \"SOFTWARE\", \"HSM\", \"EXTERNAL\". Defaults to \"SOFTWARE\".",
+              "Description": "The protection level to use when creating a version based on this template. Possible values include \"SOFTWARE\", \"HSM\", \"EXTERNAL\", \"EXTERNAL_VPC\". Defaults to \"SOFTWARE\".",
               "Default": {
                 "Type": "string",
                 "Value": "SOFTWARE"
@@ -54353,6 +55971,11 @@
                     "Required": true,
                     "Description": "The amount of time that a time series must\nviolate the threshold to be considered\nfailing. Currently, only values that are a\nmultiple of a minute--e.g., 0, 60, 120, or\n300 seconds--are supported. If an invalid\nvalue is given, an error will be returned.\nWhen choosing a duration, it is useful to\nkeep in mind the frequency of the underlying\ntime series data (which may also be affected\nby any alignments specified in the\naggregations field); a good duration is long\nenough so that a single outlier does not\ngenerate spurious alerts, but short enough\nthat unhealthy states are detected and\nalerted on quickly."
                   },
+                  "evaluation_missing_data": {
+                    "Type": "String",
+                    "Optional": true,
+                    "Description": "A condition control that determines how\nmetric-threshold conditions are evaluated when\ndata stops arriving. Possible values: [\"EVALUATION_MISSING_DATA_INACTIVE\", \"EVALUATION_MISSING_DATA_ACTIVE\", \"EVALUATION_MISSING_DATA_NO_OP\"]"
+                  },
                   "query": {
                     "Type": "String",
                     "Required": true,
@@ -54482,6 +56105,11 @@
                     "Type": "String",
                     "Required": true,
                     "Description": "The amount of time that a time series must\nviolate the threshold to be considered\nfailing. Currently, only values that are a\nmultiple of a minute--e.g., 0, 60, 120, or\n300 seconds--are supported. If an invalid\nvalue is given, an error will be returned.\nWhen choosing a duration, it is useful to\nkeep in mind the frequency of the underlying\ntime series data (which may also be affected\nby any alignments specified in the\naggregations field); a good duration is long\nenough so that a single outlier does not\ngenerate spurious alerts, but short enough\nthat unhealthy states are detected and\nalerted on quickly."
+                  },
+                  "evaluation_missing_data": {
+                    "Type": "String",
+                    "Optional": true,
+                    "Description": "A condition control that determines how\nmetric-threshold conditions are evaluated when\ndata stops arriving. Possible values: [\"EVALUATION_MISSING_DATA_INACTIVE\", \"EVALUATION_MISSING_DATA_ACTIVE\", \"EVALUATION_MISSING_DATA_NO_OP\"]"
                   },
                   "filter": {
                     "Type": "String",
@@ -57661,7 +59289,7 @@
       "name": {
         "Type": "String",
         "Required": true,
-        "Description": "The name specified for the Notebook instance."
+        "Description": "The name specified for the Notebook runtime."
       },
       "project": {
         "Type": "String",
@@ -57997,6 +59625,11 @@
                     "Type": "String",
                     "Optional": true,
                     "Description": "The type of vNIC to be used on this interface. This may be gVNIC\nor VirtioNet. Possible values: [\"UNSPECIFIED_NIC_TYPE\", \"VIRTIO_NET\", \"GVNIC\"]"
+                  },
+                  "reserved_ip_range": {
+                    "Type": "String",
+                    "Optional": true,
+                    "Description": "Reserved IP Range name is used for VPC Peering. The\nsubnetwork allocation will use the range *name* if it's assigned."
                   },
                   "shielded_instance_config": {
                     "Type": "List",
@@ -62265,7 +63898,7 @@
       "certificate_authority": {
         "Type": "String",
         "Optional": true,
-        "Description": "Certificate Authority name."
+        "Description": "The Certificate Authority ID that should issue the certificate. For example, to issue a Certificate from\na Certificate Authority with resource name 'projects/my-project/locations/us-central1/caPools/my-pool/certificateAuthorities/my-ca',\nargument 'pool' should be set to 'projects/my-project/locations/us-central1/caPools/my-pool', argument 'certificate_authority'\nshould be set to 'my-ca'."
       },
       "certificate_description": {
         "Type": "List",
@@ -63391,7 +65024,7 @@
       },
       "issuer_certificate_authority": {
         "Type": "String",
-        "Description": "The resource name of the issuing CertificateAuthority in the format projects/*/locations/*/caPools/*/certificateAuthorities/*.",
+        "Description": "The resource name of the issuing CertificateAuthority in the format 'projects/*/locations/*/caPools/*/certificateAuthorities/*'.",
         "Computed": true
       },
       "labels": {
@@ -64004,6 +65637,11 @@
         "Description": "The resource name for this CertificateAuthority in the format\nprojects/*/locations/*/certificateAuthorities/*.",
         "Computed": true
       },
+      "pem_ca_certificate": {
+        "Type": "String",
+        "Optional": true,
+        "Description": "The signed CA certificate issued from the subordinated CA's CSR. This is needed when activating the subordiante CA with a third party issuer."
+      },
       "pem_ca_certificates": {
         "Type": "List",
         "Description": "This CertificateAuthority's certificate chain, including the current\nCertificateAuthority's certificate. Ordered such that the root issuer is the final\nelement (consistent with RFC 5246). For a self-signed CA, this will only list the current\nCertificateAuthority's certificate.",
@@ -64029,10 +65667,51 @@
         "Description": "The State for this CertificateAuthority.",
         "Computed": true
       },
+      "subordinate_config": {
+        "Type": "List",
+        "Optional": true,
+        "Description": "If this is a subordinate CertificateAuthority, this field will be set\nwith the subordinate configuration, which describes its issuers.",
+        "MaxItems": 1,
+        "IsBlock": true,
+        "ConfigImplicitMode": "Block",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "certificate_authority": {
+              "Type": "String",
+              "Optional": true,
+              "Description": "This can refer to a CertificateAuthority that was used to create a\nsubordinate CertificateAuthority. This field is used for information\nand usability purposes only. The resource name is in the format\n'projects/*/locations/*/caPools/*/certificateAuthorities/*'."
+            },
+            "pem_issuer_chain": {
+              "Type": "List",
+              "Optional": true,
+              "Description": "Contains the PEM certificate chain for the issuers of this CertificateAuthority, \nbut not pem certificate for this CA itself.",
+              "MaxItems": 1,
+              "IsBlock": true,
+              "ConfigImplicitMode": "Block",
+              "Elem": {
+                "Type": "SchemaInfo",
+                "Info": {
+                  "pem_certificates": {
+                    "Type": "List",
+                    "Optional": true,
+                    "Description": "Expected to be in leaf-to-root order according to RFC 5246.",
+                    "ConfigImplicitMode": "Attr",
+                    "Elem": {
+                      "Type": "SchemaElements",
+                      "ElementsType": "String"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "type": {
         "Type": "String",
         "Optional": true,
-        "Description": "The Type of this CertificateAuthority.\n\n~\u003e **Note:** For 'SUBORDINATE' Certificate Authorities, they need to\nbe manually activated (via Cloud Console of 'gcloud') before they can\nissue certificates. Default value: \"SELF_SIGNED\" Possible values: [\"SELF_SIGNED\", \"SUBORDINATE\"]",
+        "Description": "The Type of this CertificateAuthority.\n\n~\u003e **Note:** For 'SUBORDINATE' Certificate Authorities, they need to\nbe activated before they can issue certificates. Default value: \"SELF_SIGNED\" Possible values: [\"SELF_SIGNED\", \"SUBORDINATE\"]",
         "Default": {
           "Type": "string",
           "Value": "SELF_SIGNED"
@@ -65150,6 +66829,7 @@
       ],
       "email": {
         "Type": "String",
+        "Optional": true,
         "Computed": true
       },
       "project": {
@@ -66134,6 +67814,11 @@
         "Type": "String",
         "Description": "The current zone where the Redis endpoint is placed.\nFor Basic Tier instances, this will always be the same as the\n[locationId] provided by the user at creation time. For Standard Tier\ninstances, this can be either [locationId] or [alternativeLocationId]\nand can change after a failover event.",
         "Computed": true
+      },
+      "customer_managed_key": {
+        "Type": "String",
+        "Optional": true,
+        "Description": "Optional. The KMS key reference that you want to use to encrypt the data at rest for this Redis\ninstance. If this is provided, CMEK is enabled."
       },
       "display_name": {
         "Type": "String",
@@ -68055,7 +69740,7 @@
       "database_dialect": {
         "Type": "String",
         "Optional": true,
-        "Description": "The dialect of the Cloud Spanner Database.\nIf it is not provided, \"GOOGLE_STANDARD_SQL\" will be used. \nNote: Databases that are created with POSTGRESQL dialect do not support \nextra DDL statements in the 'CreateDatabase' call. You must therefore re-apply \nterraform with ddl on the same database after creation. Possible values: [\"GOOGLE_STANDARD_SQL\", \"POSTGRESQL\"]",
+        "Description": "The dialect of the Cloud Spanner Database.\nIf it is not provided, \"GOOGLE_STANDARD_SQL\" will be used. Possible values: [\"GOOGLE_STANDARD_SQL\", \"POSTGRESQL\"]",
         "Computed": true
       },
       "ddl": {
@@ -68112,6 +69797,12 @@
       "state": {
         "Type": "String",
         "Description": "An explanation of the status of the database.",
+        "Computed": true
+      },
+      "version_retention_period": {
+        "Type": "String",
+        "Optional": true,
+        "Description": "The retention period for the database. The retention period must be between 1 hour\nand 7 days, and can be specified in days, hours, minutes, or seconds. For example,\nthe values 1d, 24h, 1440m, and 86400s are equivalent. Default value is 1h.\nIf this property is used, you must avoid adding new DDL statements to 'ddl' that\nupdate the database's version_retention_period.",
         "Computed": true
       }
     },
@@ -69019,6 +70710,11 @@
                     "Optional": true,
                     "Description": "A Google App Engine application whose zone to remain in. Must be in the same region as this instance."
                   },
+                  "secondary_zone": {
+                    "Type": "String",
+                    "Optional": true,
+                    "Description": "The preferred Compute Engine zone for the secondary/failover"
+                  },
                   "zone": {
                     "Type": "String",
                     "Optional": true,
@@ -69062,6 +70758,33 @@
               "Default": {
                 "Type": "string",
                 "Value": "PER_USE"
+              }
+            },
+            "sql_server_audit_config": {
+              "Type": "List",
+              "Optional": true,
+              "MaxItems": 1,
+              "IsBlock": true,
+              "ConfigImplicitMode": "Block",
+              "Elem": {
+                "Type": "SchemaInfo",
+                "Info": {
+                  "bucket": {
+                    "Type": "String",
+                    "Required": true,
+                    "Description": "The name of the destination bucket (e.g., gs://mybucket)."
+                  },
+                  "retention_interval": {
+                    "Type": "String",
+                    "Optional": true,
+                    "Description": "How long to keep generated audit files. A duration in seconds with up to nine fractional digits, terminated by 's'. Example: \"3.5s\".."
+                  },
+                  "upload_interval": {
+                    "Type": "String",
+                    "Optional": true,
+                    "Description": "How often to upload generated audit files. A duration in seconds with up to nine fractional digits, terminated by 's'. Example: \"3.5s\"."
+                  }
+                }
               }
             },
             "tier": {
@@ -72839,7 +74562,7 @@
             },
             "encryption_config": {
               "Type": "List",
-              "Description": "The encryption options for the Composer environment and its dependencies. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.",
+              "Description": "The encryption options for the Composer environment and its dependencies.",
               "Computed": true,
               "IsBlock": true,
               "ConfigImplicitMode": "ComputedBlock",
@@ -73415,6 +75138,23 @@
         "Elem": {
           "Type": "SchemaInfo",
           "Info": {
+            "bypass_cache_on_request_headers": {
+              "Type": "List",
+              "Description": "Bypass the cache when the specified request headers are matched - e.g. Pragma or Authorization headers. Up to 5 headers can be specified. The cache is bypassed for all cdnPolicy.cacheMode settings.",
+              "Computed": true,
+              "IsBlock": true,
+              "ConfigImplicitMode": "ComputedBlock",
+              "Elem": {
+                "Type": "SchemaInfo",
+                "Info": {
+                  "header_name": {
+                    "Type": "String",
+                    "Description": "The header field name to match on when bypassing cache. Values are case-insensitive.",
+                    "Computed": true
+                  }
+                }
+              }
+            },
             "cache_key_policy": {
               "Type": "List",
               "Description": "The CacheKeyPolicy for this CdnPolicy.",
@@ -73494,6 +75234,11 @@
                 }
               }
             },
+            "request_coalescing": {
+              "Type": "Bool",
+              "Description": "If true then Cloud CDN will combine multiple concurrent cache fill requests into a small number of requests to the origin.",
+              "Computed": true
+            },
             "serve_while_stale": {
               "Type": "Int",
               "Description": "Serve existing content from the cache (if available) when revalidating content with the origin, or when an error is encountered when refreshing the cache.",
@@ -73568,7 +75313,7 @@
           "Info": {
             "balancing_mode": {
               "Type": "String",
-              "Description": "Specifies the balancing mode for this backend.\n\nFor global HTTP(S) or TCP/SSL load balancing, the default is\nUTILIZATION. Valid values are UTILIZATION, RATE (for HTTP(S))\nand CONNECTION (for TCP/SSL). Default value: \"UTILIZATION\" Possible values: [\"UTILIZATION\", \"RATE\", \"CONNECTION\"]",
+              "Description": "Specifies the balancing mode for this backend.\n\nFor global HTTP(S) or TCP/SSL load balancing, the default is\nUTILIZATION. Valid values are UTILIZATION, RATE (for HTTP(S))\nand CONNECTION (for TCP/SSL).\n\nSee the [Backend Services Overview](https://cloud.google.com/load-balancing/docs/backend-service#balancing-mode)\nfor an explanation of load balancing modes. Default value: \"UTILIZATION\" Possible values: [\"UTILIZATION\", \"RATE\", \"CONNECTION\"]",
               "Computed": true
             },
             "capacity_scaler": {
@@ -75686,6 +77431,11 @@
               "Description": "Specifies if the instance should be restarted if it was terminated by Compute Engine (not a user).",
               "Computed": true
             },
+            "instance_termination_action": {
+              "Type": "String",
+              "Description": "Specifies the action GCE should take when SPOT VM is preempted.",
+              "Computed": true
+            },
             "min_node_cpus": {
               "Type": "Int",
               "Computed": true
@@ -76391,6 +78141,11 @@
               "Description": "Specifies whether the instance should be automatically restarted if it is terminated by Compute Engine (not terminated by a user). This defaults to true.",
               "Computed": true
             },
+            "instance_termination_action": {
+              "Type": "String",
+              "Description": "Specifies the action GCE should take when SPOT VM is preempted.",
+              "Computed": true
+            },
             "min_node_cpus": {
               "Type": "Int",
               "Description": "Minimum number of cpus for the instance.",
@@ -76592,7 +78347,7 @@
       },
       "network_endpoint_type": {
         "Type": "String",
-        "Description": "Type of network endpoints in this network endpoint group.\nNON_GCP_PRIVATE_IP_PORT is used for hybrid connectivity network\nendpoint groups (see https://cloud.google.com/load-balancing/docs/hybrid).\nNote that NON_GCP_PRIVATE_IP_PORT can only be used with Backend Services\nthat 1) have the following load balancing schemes: EXTERNAL, EXTERNAL_MANAGED,\nINTERNAL_MANAGED, and INTERNAL_SELF_MANAGED and 2) support the RATE or\nCONNECTION balancing modes. Default value: \"GCE_VM_IP_PORT\" Possible values: [\"GCE_VM_IP_PORT\", \"NON_GCP_PRIVATE_IP_PORT\"]",
+        "Description": "Type of network endpoints in this network endpoint group.\nNON_GCP_PRIVATE_IP_PORT is used for hybrid connectivity network\nendpoint groups (see https://cloud.google.com/load-balancing/docs/hybrid).\nNote that NON_GCP_PRIVATE_IP_PORT can only be used with Backend Services\nthat 1) have the following load balancing schemes: EXTERNAL, EXTERNAL_MANAGED,\nINTERNAL_MANAGED, and INTERNAL_SELF_MANAGED and 2) support the RATE or\nCONNECTION balancing modes.\n\nPossible values include: GCE_VM_IP, GCE_VM_IP_PORT, and NON_GCP_PRIVATE_IP_PORT. Default value: \"GCE_VM_IP_PORT\" Possible values: [\"GCE_VM_IP\", \"GCE_VM_IP_PORT\", \"NON_GCP_PRIVATE_IP_PORT\"]",
         "Computed": true
       },
       "project": {
@@ -77687,7 +79442,7 @@
             },
             "gce_persistent_disk_csi_driver_config": {
               "Type": "List",
-              "Description": "Whether this cluster should enable the Google Compute Engine Persistent Disk Container Storage Interface (CSI) Driver. Defaults to disabled; set enabled = true to enable.",
+              "Description": "Whether this cluster should enable the Google Compute Engine Persistent Disk Container Storage Interface (CSI) Driver. Defaults to enabled; set disabled = true to disable.",
               "Computed": true,
               "IsBlock": true,
               "ConfigImplicitMode": "ComputedBlock",
@@ -77834,6 +79589,28 @@
             "security_group": {
               "Type": "String",
               "Description": "The name of the RBAC security group for use with Google security groups in Kubernetes RBAC. Group name must be in format gke-security-groups@yourdomain.com.",
+              "Computed": true
+            }
+          }
+        }
+      },
+      "binary_authorization": {
+        "Type": "List",
+        "Description": "Configuration options for the Binary Authorization feature.",
+        "Computed": true,
+        "IsBlock": true,
+        "ConfigImplicitMode": "ComputedBlock",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "enabled": {
+              "Type": "Bool",
+              "Description": "Enable Binary Authorization for this cluster.",
+              "Computed": true
+            },
+            "evaluation_mode": {
+              "Type": "String",
+              "Description": "Mode of operation for Binary Authorization policy evaluation.",
               "Computed": true
             }
           }
@@ -79656,6 +81433,11 @@
         "Description": "A Cloud Storage URI (starting with gs://) that specifies where artifacts related to the metastore service are stored.",
         "Computed": true
       },
+      "database_type": {
+        "Type": "String",
+        "Description": "The database type that the Metastore service stores its data. Default value: \"MYSQL\" Possible values: [\"MYSQL\", \"SPANNER\"]",
+        "Computed": true
+      },
       "encryption_config": {
         "Type": "List",
         "Description": "Information used to configure the Dataproc Metastore service to encrypt\ncustomer data at rest.",
@@ -79696,6 +81478,11 @@
                 "Type": "SchemaElements",
                 "ElementsType": "String"
               }
+            },
+            "endpoint_protocol": {
+              "Type": "String",
+              "Description": "The protocol to use for the metastore service endpoint. If unspecified, defaults to 'THRIFT'. Default value: \"THRIFT\" Possible values: [\"THRIFT\", \"GRPC\"]",
+              "Computed": true
             },
             "kerberos_config": {
               "Type": "List",
@@ -79757,11 +81544,11 @@
       "location": {
         "Type": "String",
         "Required": true,
-        "Description": "The  location where the autoscaling policy should reside.\nThe default value is 'global'."
+        "Description": "The location where the metastore service should reside.\nThe default value is 'global'."
       },
       "maintenance_window": {
         "Type": "List",
-        "Description": "The one hour maintenance window of the metastore service.\nThis specifies when the service can be restarted for maintenance purposes in UTC time.",
+        "Description": "The one hour maintenance window of the metastore service.\nThis specifies when the service can be restarted for maintenance purposes in UTC time.\nMaintenance window is not needed for services with the 'SPANNER' database type.",
         "Computed": true,
         "IsBlock": true,
         "ConfigImplicitMode": "ComputedBlock",
@@ -79800,6 +81587,11 @@
         "Type": "String",
         "Optional": true
       },
+      "release_channel": {
+        "Type": "String",
+        "Description": "The release channel of the service. If unspecified, defaults to 'STABLE'. Default value: \"STABLE\" Possible values: [\"CANARY\", \"STABLE\"]",
+        "Computed": true
+      },
       "service_id": {
         "Type": "String",
         "Required": true,
@@ -79818,6 +81610,11 @@
       "tier": {
         "Type": "String",
         "Description": "The tier of the service. Possible values: [\"DEVELOPER\", \"ENTERPRISE\"]",
+        "Computed": true
+      },
+      "uid": {
+        "Type": "String",
+        "Description": "The globally unique resource identifier of the metastore service.",
         "Computed": true
       }
     },
@@ -80739,7 +82536,7 @@
       },
       "purpose": {
         "Type": "String",
-        "Description": "The immutable purpose of this CryptoKey. See the\n[purpose reference](https://cloud.google.com/kms/docs/reference/rest/v1/projects.locations.keyRings.cryptoKeys#CryptoKeyPurpose)\nfor possible inputs. Default value: \"ENCRYPT_DECRYPT\" Possible values: [\"ENCRYPT_DECRYPT\", \"ASYMMETRIC_SIGN\", \"ASYMMETRIC_DECRYPT\"]",
+        "Description": "The immutable purpose of this CryptoKey. See the\n[purpose reference](https://cloud.google.com/kms/docs/reference/rest/v1/projects.locations.keyRings.cryptoKeys#CryptoKeyPurpose)\nfor possible inputs. Default value: \"ENCRYPT_DECRYPT\" Possible values: [\"ENCRYPT_DECRYPT\", \"ASYMMETRIC_SIGN\", \"ASYMMETRIC_DECRYPT\", \"MAC\"]",
         "Computed": true
       },
       "rotation_period": {
@@ -80768,7 +82565,7 @@
             },
             "protection_level": {
               "Type": "String",
-              "Description": "The protection level to use when creating a version based on this template. Possible values include \"SOFTWARE\", \"HSM\", \"EXTERNAL\". Defaults to \"SOFTWARE\".",
+              "Description": "The protection level to use when creating a version based on this template. Possible values include \"SOFTWARE\", \"HSM\", \"EXTERNAL\", \"EXTERNAL_VPC\". Defaults to \"SOFTWARE\".",
               "Computed": true
             }
           }
@@ -81806,6 +83603,11 @@
         "Description": "The resource name for this CertificateAuthority in the format\nprojects/*/locations/*/certificateAuthorities/*.",
         "Computed": true
       },
+      "pem_ca_certificate": {
+        "Type": "String",
+        "Description": "The signed CA certificate issued from the subordinated CA's CSR. This is needed when activating the subordiante CA with a third party issuer.",
+        "Computed": true
+      },
       "pem_ca_certificates": {
         "Type": "List",
         "Description": "This CertificateAuthority's certificate chain, including the current\nCertificateAuthority's certificate. Ordered such that the root issuer is the final\nelement (consistent with RFC 5246). For a self-signed CA, this will only list the current\nCertificateAuthority's certificate.",
@@ -81834,9 +83636,48 @@
         "Description": "The State for this CertificateAuthority.",
         "Computed": true
       },
+      "subordinate_config": {
+        "Type": "List",
+        "Description": "If this is a subordinate CertificateAuthority, this field will be set\nwith the subordinate configuration, which describes its issuers.",
+        "Computed": true,
+        "IsBlock": true,
+        "ConfigImplicitMode": "ComputedBlock",
+        "Elem": {
+          "Type": "SchemaInfo",
+          "Info": {
+            "certificate_authority": {
+              "Type": "String",
+              "Description": "This can refer to a CertificateAuthority that was used to create a\nsubordinate CertificateAuthority. This field is used for information\nand usability purposes only. The resource name is in the format\n'projects/*/locations/*/caPools/*/certificateAuthorities/*'.",
+              "Computed": true
+            },
+            "pem_issuer_chain": {
+              "Type": "List",
+              "Description": "Contains the PEM certificate chain for the issuers of this CertificateAuthority, \nbut not pem certificate for this CA itself.",
+              "Computed": true,
+              "IsBlock": true,
+              "ConfigImplicitMode": "ComputedBlock",
+              "Elem": {
+                "Type": "SchemaInfo",
+                "Info": {
+                  "pem_certificates": {
+                    "Type": "List",
+                    "Description": "Expected to be in leaf-to-root order according to RFC 5246.",
+                    "Computed": true,
+                    "ConfigImplicitMode": "Attr",
+                    "Elem": {
+                      "Type": "SchemaElements",
+                      "ElementsType": "String"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "type": {
         "Type": "String",
-        "Description": "The Type of this CertificateAuthority.\n\n~\u003e **Note:** For 'SUBORDINATE' Certificate Authorities, they need to\nbe manually activated (via Cloud Console of 'gcloud') before they can\nissue certificates. Default value: \"SELF_SIGNED\" Possible values: [\"SELF_SIGNED\", \"SUBORDINATE\"]",
+        "Description": "The Type of this CertificateAuthority.\n\n~\u003e **Note:** For 'SUBORDINATE' Certificate Authorities, they need to\nbe activated before they can issue certificates. Default value: \"SELF_SIGNED\" Possible values: [\"SELF_SIGNED\", \"SUBORDINATE\"]",
         "Computed": true
       },
       "update_time": {
@@ -82203,6 +84044,11 @@
       "current_location_id": {
         "Type": "String",
         "Description": "The current zone where the Redis endpoint is placed.\nFor Basic Tier instances, this will always be the same as the\n[locationId] provided by the user at creation time. For Standard Tier\ninstances, this can be either [locationId] or [alternativeLocationId]\nand can change after a failover event.",
+        "Computed": true
+      },
+      "customer_managed_key": {
+        "Type": "String",
+        "Description": "Optional. The KMS key reference that you want to use to encrypt the data at rest for this Redis\ninstance. If this is provided, CMEK is enabled.",
         "Computed": true
       },
       "display_name": {
@@ -82801,6 +84647,30 @@
         "Optional": true
       }
     },
+    "google_service_account_jwt": {
+      "delegates": {
+        "Type": "Set",
+        "Optional": true,
+        "ConfigImplicitMode": "Attr",
+        "Elem": {
+          "Type": "SchemaElements",
+          "ElementsType": "String"
+        }
+      },
+      "jwt": {
+        "Type": "String",
+        "Computed": true
+      },
+      "payload": {
+        "Type": "String",
+        "Required": true,
+        "Description": "A JSON-encoded JWT claims set that will be included in the signed JWT."
+      },
+      "target_service_account": {
+        "Type": "String",
+        "Required": true
+      }
+    },
     "google_service_account_key": {
       "key_algorithm": {
         "Type": "String",
@@ -82971,6 +84841,12 @@
         "Type": "Bool",
         "Optional": true,
         "Description": "Toggles use of the most recent backup run if multiple backups exist for a Cloud SQL instance."
+      },
+      "project": {
+        "Type": "String",
+        "Optional": true,
+        "Description": "Project ID of the project that contains the instance.",
+        "Computed": true
       },
       "start_time": {
         "Type": "String",
@@ -83519,6 +85395,11 @@
                     "Description": "A Google App Engine application whose zone to remain in. Must be in the same region as this instance.",
                     "Computed": true
                   },
+                  "secondary_zone": {
+                    "Type": "String",
+                    "Description": "The preferred Compute Engine zone for the secondary/failover",
+                    "Computed": true
+                  },
                   "zone": {
                     "Type": "String",
                     "Description": "The preferred compute engine zone.",
@@ -83558,6 +85439,32 @@
               "Type": "String",
               "Description": "Pricing plan for this instance, can only be PER_USE.",
               "Computed": true
+            },
+            "sql_server_audit_config": {
+              "Type": "List",
+              "Computed": true,
+              "IsBlock": true,
+              "ConfigImplicitMode": "ComputedBlock",
+              "Elem": {
+                "Type": "SchemaInfo",
+                "Info": {
+                  "bucket": {
+                    "Type": "String",
+                    "Description": "The name of the destination bucket (e.g., gs://mybucket).",
+                    "Computed": true
+                  },
+                  "retention_interval": {
+                    "Type": "String",
+                    "Description": "How long to keep generated audit files. A duration in seconds with up to nine fractional digits, terminated by 's'. Example: \"3.5s\"..",
+                    "Computed": true
+                  },
+                  "upload_interval": {
+                    "Type": "String",
+                    "Description": "How often to upload generated audit files. A duration in seconds with up to nine fractional digits, terminated by 's'. Example: \"3.5s\".",
+                    "Computed": true
+                  }
+                }
+              }
             },
             "tier": {
               "Type": "String",
